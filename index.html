@@ -301,12 +301,52 @@ function calculate(){
 }
 
 function mechanicHelp(){
- const problem=document.getElementById("problem").value.trim();
- if(!problem){alert("Describe the problem first.");return}
- document.getElementById("mechanicAnswer").innerHTML=
-  "<strong>Let's narrow it down.</strong><p>Problem recorded: "+safe(problem)+"</p>"+
-  "<p>Start by checking basic items such as air filter condition, fuel quality, visible leaks, loose connections and recent maintenance.</p>"+
-  "<p>Before adjusting or opening components, consult the correct service manual. This is a demo response, not an AI diagnosis.</p>";
+ const problemEl=document.getElementById("problem");
+ const problem=problemEl.value.trim();
+ const answer=document.getElementById("mechanicAnswer");
+ const bikeSelect=document.getElementById("problemBike");
+ const bike=bikeSelect.options[bikeSelect.selectedIndex]?.text||"Unknown bike";
+
+ if(!problem){
+  alert("Describe the problem first.");
+  return;
+ }
+
+ function addMessage(who,message){
+  const box=document.createElement("div");
+  box.className="entry";
+  const title=document.createElement("strong");
+  title.textContent=who;
+  const body=document.createElement("p");
+  body.textContent=message;
+  box.appendChild(title);
+  box.appendChild(body);
+  answer.appendChild(box);
+ }
+
+ addMessage("You",problem);
+
+ const p=problem.toLowerCase();
+ let reply="Let's narrow this down. When did the problem first start? Did anything change recently, such as maintenance, parts, fuel, or riding conditions?";
+
+ if(/overheat|hot|temperature|boiling|coolant/.test(p)){
+  reply="Overheating can cause serious engine damage. Stop riding until the cause is understood. Once the bike is completely cool, check coolant level and look for visible leaks. Never open a hot radiator. Is it actually boiling over, or just running hotter than usual?";
+ }
+ else if(/won't start|wont start|no start|not start|starting/.test(p)){
+  reply="Let's troubleshoot the starting problem. First check the kill switch, fuel supply, and whether the bike has normal compression. Does the engine crank over, or does absolutely nothing happen when you try to start it?";
+ }
+ else if(/bog|stutter|hesitat|stall|cut out/.test(p)){
+  reply="Let's narrow down the running issue. Check air filter condition, fuel quality, and recent maintenance. Does it happen at idle, when you first open the throttle, in the middle of the RPM range, or at full throttle?";
+ }
+ else if(/noise|knock|rattle|click|grind/.test(p)){
+  reply="New engine noises deserve attention. If you hear knocking, grinding, or a sudden loud noise, shut the engine off and don't continue riding until inspected. Where does the noise seem to come from, and does it happen at idle or while moving?";
+ }
+ else if(/suspension|fork|shock|sag|clicker|handling/.test(p)){
+  reply="Let's look at the suspension. Tell me your current fork and shock settings, rider weight with gear, and track conditions. What exactly does the bike do: dive, kick, feel harsh, bottom out, or feel unstable?";
+ }
+
+ addMessage("MotoSetup Guide · "+bike,reply);
+ problemEl.value="";
 }
 
 function render(){
