@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101114">
+<title>MotoSetup AI</title>
+<style>
+:root{--bg:#101114;--panel:#1b1d22;--orange:#ff641e;--muted:#a5a8b0;--line:#30333b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{padding:22px 18px;background:#17191e;border-bottom:2px solid var(--orange)}
+.logo{font-size:25px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--orange)}
+header p{color:var(--muted);margin:7px 0 0;font-size:13px}
+nav{display:flex;gap:7px;overflow-x:auto;padding:12px;background:#17191e;position:sticky;top:0;z-index:2}
+nav button{white-space:nowrap;background:#292c33;color:white;border:0;border-radius:8px;padding:11px 13px;font-weight:bold}
+nav button.active{background:var(--orange);color:#111}
+main{padding:17px;max-width:850px;margin:auto}
+h1{font-size:26px;margin:8px 0}
+h2{font-size:19px;margin-top:0}
+p{line-height:1.5}
+.muted{color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px;margin:13px 0}
+.hero{background:linear-gradient(135deg,#382317,#17191e 70%);border:1px solid #65351f;padding:22px;border-radius:14px;margin-bottom:18px}
+.hero strong{color:var(--orange)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#24262d;padding:14px;border-radius:10px}
+.stat b{display:block;font-size:22px;color:var(--orange);margin-bottom:5px}
+label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px}
+input,select,textarea{width:100%;background:#101216;color:white;border:1px solid #41444d;border-radius:8px;padding:12px;font-size:15px}
+textarea{min-height:85px;resize:vertical}
+button.primary{background:var(--orange);color:#111;font-weight:bold;border:0;border-radius:8px;padding:13px 17px;margin-top:13px;width:100%;font-size:15px}
+button.secondary{background:#30333b;color:white;border:1px solid #484b54;border-radius:8px;padding:9px 12px}
+.entry{padding:13px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.entry:last-child{border:0}
+.hidden{display:none!important}
+footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
+.small{font-size:12px;color:var(--muted)}
+.entry button{margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">MOTOSETUP <span>AI</span></div>
+ <p>Ride smarter. Set up better. Race harder.</p>
+</header>
+
+<nav id="nav">
+ <button class="active" data-page="home">Home</button>
+ <button data-page="garage">My Garage</button>
+ <button data-page="suspension">Suspension</button>
+ <button data-page="maintenance">Maintenance</button>
+ <button data-page="gearing">Gearing</button>
+ <button data-page="mechanic">AI Mechanic</button>
+</nav>
+
+<main>
+<section id="home">
+ <div class="hero">
+  <p><strong>WELCOME TO MOTOSETUP AI</strong></p>
+  <h1>Your bike. Your setup. Your progress.</h1>
+  <p class="muted">One place to manage your bikes, suspension settings, maintenance and gearing.</p>
+  <button class="primary" onclick="showPage('garage')">OPEN MY GARAGE</button>
+ </div>
+ <div class="stats">
+  <div class="stat"><b id="bikeCount">0</b>Saved bikes</div>
+  <div class="stat"><b id="setupCount">0</b>Suspension records</div>
+  <div class="stat"><b id="maintenanceCount">0</b>Maintenance records</div>
+  <div class="stat"><b>64</b>Ready to ride</div>
+ </div>
+ <div class="card">
+  <h2>Start here</h2>
+  <p class="muted">Add your bike to start building its own setup and maintenance history.</p>
+  <button class="primary" onclick="showPage('garage')">ADD A BIKE</button>
+ </div>
+</section>
+
+<section id="garage" class="hidden">
+ <h1>My Garage</h1>
+ <p class="muted">Keep your bikes and their information organized.</p>
+ <div class="card">
+  <h2>Add a bike</h2>
+  <label>Manufacturer</label>
+  <select id="make">
+   <option>KTM</option><option>Yamaha</option><option>Kawasaki</option>
+   <option>Honda</option><option>Suzuki</option><option>GasGas</option>
+   <option>Husqvarna</option><option>Triumph</option><option>Other</option>
+  </select>
+  <label>Year</label><input id="year" type="number" placeholder="2024">
+  <label>Model</label><input id="model" placeholder="125 SX">
+  <label>Engine type</label>
+  <select id="engine"><option>2-stroke</option><option>4-stroke</option></select>
+  <label>Engine hours</label><input id="hours" type="number" placeholder="0">
+  <button class="primary" onclick="addBike()">SAVE BIKE</button>
+ </div>
+ <div class="card"><h2>Your bikes</h2><div id="bikes"></div></div>
+</section>
+
+<section id="suspension" class="hidden">
+ <h1>Suspension Setup Center</h1>
+ <p class="muted">Record settings, test changes and track what works.</p>
+ <div class="card">
+  <h2>Save a setup</h2>
+  <label>Bike</label><select id="sBike"></select>
+  <label>Rider</label><input id="rider" placeholder="Rider name">
+  <label>Fork compression (clicks out)</label><input id="fc" placeholder="Example: 12">
+  <label>Fork rebound (clicks out)</label><input id="fr" placeholder="Example: 10">
+  <label>Shock compression (clicks out)</label><input id="sc" placeholder="Example: 12">
+  <label>Shock rebound (clicks out)</label><input id="sr" placeholder="Example: 10">
+  <label>Race sag (mm)</label><input id="sag" type="number" placeholder="Example: 105">
+  <label>Track conditions</label>
+  <select id="conditions"><option>Hard pack</option><option>Loam</option><option>Sand</option><option>Rutted</option><option>Wet</option><option>Mixed</option></select>
+  <label>How did the bike feel?</label><textarea id="feedback" placeholder="Describe handling, comfort, stability..."></textarea>
+  <label>Did the changes help?</label>
+  <select id="result"><option>Not tested yet</option><option>Improved</option><option>About the same</option><option>Worse</option></select>
+  <button class="primary" onclick="saveSetup()">SAVE SETUP</button>
+ </div>
+ <div class="card"><h2>Suspension Testing History</h2><div id="setups"></div></div>
+</section>
+
+<section id="maintenance" class="hidden">
+ <h1>Maintenance Center</h1>
+ <p class="muted">Keep track of the work you've done on each bike.</p>
+ <div class="card">
+  <h2>Log maintenance</h2>
+  <label>Bike</label><select id="mBike"></select>
+  <label>Service performed</label>
+  <select id="service">
+   <option>Engine oil</option><option>Air filter</option><option>Chain maintenance</option>
+   <option>Sprockets</option><option>Top end</option><option>Valve check</option>
+   <option>Coolant</option><option>Other</option>
+  </select>
+  <label>Engine hours</label><input id="mHours" type="number" placeholder="Hours at service">
+  <label>Date</label><input id="mDate" type="date">
+  <label>Notes</label><textarea id="mNotes" placeholder="Parts used, work performed..."></textarea>
+  <button class="primary" onclick="saveMaintenance()">SAVE MAINTENANCE</button>
+ </div>
+ <div class="card"><h2>Service history</h2><div id="maintenanceList"></div></div>
+</section>
+
+<section id="gearing" class="hidden">
+ <h1>Gearing Calculator</h1>
+ <p class="muted">Compare final drive ratios for different sprocket combinations.</p>
+ <div class="card">
+  <label>Front sprocket teeth</label><input id="front" type="number" value="13">
+  <label>Rear sprocket teeth</label><input id="rear" type="number" value="50">
+  <button class="primary" onclick="calculate()">CALCULATE RATIO</button>
+  <h2 id="ratio" style="color:var(--orange);margin-top:20px">3.846</h2>
+  <p id="gearingInfo" class="muted">Enter your sprocket sizes to compare gearing.</p>
+ </div>
+ <div class="card">
+  <h2>Understanding gearing</h2>
+  <p>A higher final drive ratio generally gives shorter gearing and more wheel torque. A lower ratio generally gives taller gearing and lower engine RPM at the same speed.</p>
+  <p class="muted">Actual results depend on the bike, transmission, tire size and track.</p>
+ </div>
+</section>
+
+<section id="mechanic" class="hidden">
+ <h1>AI Mechanic</h1>
+ <p class="muted">A place to organize bike problems and symptoms.</p>
+ <div class="card">
+  <h2>Describe your problem</h2>
+  <label>Bike</label><select id="problemBike"></select>
+  <label>What is happening?</label>
+  <textarea id="problem" placeholder="Example: Bike bogs when I open the throttle..."></textarea>
+  <button class="primary" onclick="mechanicHelp()">REVIEW MY PROBLEM</button>
+  <div id="mechanicAnswer" class="entry"></div>
+ </div>
+ <p class="small">This first version uses a demo response, not a live AI diagnosis. Verify technical specifications and safety-critical repairs using the correct manufacturer service manual.</p>
+</section>
+</main>
+
+<footer>MOTOSETUP AI · Ride smarter. Set up better. Race harder.</footer>
+
+<script>
+function getData(key){
+ try{return JSON.parse(localStorage.getItem("moto_"+key)||"[]")}
+ catch(e){return []}
+}
+function putData(key,data){
+ localStorage.setItem("moto_"+key,JSON.stringify(data));
+}
+let bikes=getData("bikes");
+let setups=getData("setups");
+let maintenance=getData("maintenance");
+
+function showPage(page){
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(page).classList.remove("hidden");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ render();
+ window.scrollTo(0,0);
+}
+
+document.getElementById("nav").addEventListener("click",e=>{
+ const button=e.target.closest("button[data-page]");
+ if(button)showPage(button.dataset.page);
+});
+
+function safe(text){
+ return String(text??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function bikeName(index){
+ const b=bikes[index];
+ return b?safe(b.year+" "+b.make+" "+b.model):"Unknown bike";
+}
+
+function updateBikeSelectors(){
+ ["sBike","mBike","problemBike"].forEach(id=>{
+  const el=document.getElementById(id);
+  const previous=el.value;
+  el.innerHTML=bikes.length
+   ?bikes.map((b,i)=>`<option value="${i}">${bikeName(i)}</option>`).join("")
+   :'<option value="">Add a bike first</option>';
+  if(previous!==""&&Number(previous)<bikes.length)el.value=previous;
+ });
+}
+
+function addBike(){
+ const b={
+  make:document.getElementById("make").value,
+  year:document.getElementById("year").value,
+  model:document.getElementById("model").value.trim(),
+  engine:document.getElementById("engine").value,
+  hours:document.getElementById("hours").value
+ };
+ if(!b.year||!b.model){alert("Enter the bike year and model.");return}
+ bikes.push(b);
+ putData("bikes",bikes);
+ document.getElementById("year").value="";
+ document.getElementById("model").value="";
+ document.getElementById("hours").value="";
+ render();
+ alert("Bike saved!");
+}
+
+function deleteBike(index){
+ if(!confirm("Delete this bike and its associated setup and maintenance records?"))return;
+ bikes.splice(index,1);
+ setups=setups.filter(s=>Number(s.bike)!==index).map(s=>({...s,bike:Number(s.bike)>index?Number(s.bike)-1:s.bike}));
+ maintenance=maintenance.filter(m=>Number(m.bike)!==index).map(m=>({...m,bike:Number(m.bike)>index?Number(m.bike)-1:m.bike}));
+ putData("bikes",bikes);
+ putData("setups",setups);
+ putData("maintenance",maintenance);
+ render();
+}
+
+function saveSetup(){
+ if(!bikes.length){alert("Add a bike to your garage first.");return}
+ const setup={
+  bike:document.getElementById("sBike").value,
+  rider:document.getElementById("rider").value,
+  fc:document.getElementById("fc").value,
+  fr:document.getElementById("fr").value,
+  sc:document.getElementById("sc").value,
+  sr:document.getElementById("sr").value,
+  sag:document.getElementById("sag").value,
+  conditions:document.getElementById("conditions").value,
+  feedback:document.getElementById("feedback").value,
+  result:document.getElementById("result").value,
+  date:new Date().toLocaleDateString()
+ };
+ setups.unshift(setup);
+ putData("setups",setups);
+ document.getElementById("feedback").value="";
+ render();
+ alert("Suspension setup saved!");
+}
+
+function saveMaintenance(){
+ if(!bikes.length){alert("Add a bike to your garage first.");return}
+ const record={
+  bike:document.getElementById("mBike").value,
+  service:document.getElementById("service").value,
+  hours:document.getElementById("mHours").value,
+  date:document.getElementById("mDate").value,
+  notes:document.getElementById("mNotes").value
+ };
+ maintenance.unshift(record);
+ putData("maintenance",maintenance);
+ document.getElementById("mNotes").value="";
+ render();
+ alert("Maintenance saved!");
+}
+
+function calculate(){
+ const f=Number(document.getElementById("front").value);
+ const r=Number(document.getElementById("rear").value);
+ if(f<=0||r<=0||!Number.isFinite(f)||!Number.isFinite(r)){
+  alert("Enter valid sprocket sizes.");return;
+ }
+ const value=r/f;
+ document.getElementById("ratio").textContent=value.toFixed(3);
+ document.getElementById("gearingInfo").textContent=
+  `${r} ÷ ${f} = ${value.toFixed(3)} final drive ratio. Compare this with your current gearing.`;
+}
+
+function mechanicHelp(){
+ const problem=document.getElementById("problem").value.trim();
+ if(!problem){alert("Describe the problem first.");return}
+ document.getElementById("mechanicAnswer").innerHTML=
+  "<strong>Let's narrow it down.</strong><p>Problem recorded: "+safe(problem)+"</p>"+
+  "<p>Start by checking basic items such as air filter condition, fuel quality, visible leaks, loose connections and recent maintenance.</p>"+
+  "<p>Before adjusting or opening components, consult the correct service manual. This is a demo response, not an AI diagnosis.</p>";
+}
+
+function render(){
+ bikes=getData("bikes");
+ setups=getData("setups");
+ maintenance=getData("maintenance");
+ document.getElementById("bikeCount").textContent=bikes.length;
+ document.getElementById("setupCount").textContent=setups.length;
+ document.getElementById("maintenanceCount").textContent=maintenance.length;
+ updateBikeSelectors();
+
+ document.getElementById("bikes").innerHTML=bikes.length
+  ?bikes.map((b,i)=>`
+   <div class="entry">
+    <strong>${bikeName(i)}</strong>
+    <p class="small">${safe(b.engine)} · ${safe(b.hours||"0")} engine hours</p>
+    <button class="secondary" onclick="deleteBike(${i})">Delete bike</button>
+   </div>`).join("")
+  :'<p class="muted">No bikes added yet. Add your first bike above.</p>';
+
+ document.getElementById("setups").innerHTML=setups.length
+  ?setups.map(s=>`
+   <div class="entry">
+    <strong>${bikeName(Number(s.bike))}</strong>
+    <p class="small">${safe(s.date)} · ${safe(s.rider||"Rider not specified")}</p>
+    <p>Fork compression: ${safe(s.fc||"—")} · Rebound: ${safe(s.fr||"—")}</p>
+    <p>Shock compression: ${safe(s.sc||"—")} · Rebound: ${safe(s.sr||"—")}</p>
+    <p>Sag: ${safe(s.sag||"—")} mm · Track: ${safe(s.conditions)}</p>
+    <p>Result: <strong>${safe(s.result)}</strong></p>
+    <p>${safe(s.feedback||"No feedback entered.")}</p>
+   </div>`).join("")
+  :'<p class="muted">Your suspension tests will appear here.</p>';
+
+ document.getElementById("maintenanceList").innerHTML=maintenance.length
+  ?maintenance.map(m=>`
+   <div class="entry">
+    <strong>${safe(m.service)}</strong>
+    <p class="small">${bikeName(Number(m.bike))} · ${safe(m.date||"Date not entered")}</p>
+    <p>Engine hours: ${safe(m.hours||"Not entered")}</p>
+    <p>${safe(m.notes||"No notes.")}</p>
+   </div>`).join("")
+  :'<p class="muted">Your maintenance records will appear here.</p>';
+}
+
+render();
+</script>
+</body>
+</html>
