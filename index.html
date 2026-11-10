@@ -300,53 +300,116 @@ function calculate(){
   `${r} ÷ ${f} = ${value.toFixed(3)} final drive ratio. Compare this with your current gearing.`;
 }
 
+
 function mechanicHelp(){
- const problemEl=document.getElementById("problem");
- const problem=problemEl.value.trim();
- const answer=document.getElementById("mechanicAnswer");
- const bikeSelect=document.getElementById("problemBike");
- const bike=bikeSelect.options[bikeSelect.selectedIndex]?.text||"Unknown bike";
+  const problemEl = document.getElementById("problem");
+  const answer = document.getElementById("mechanicAnswer");
+  const bikeSelect = document.getElementById("problemBike");
 
- if(!problem){
-  alert("Describe the problem first.");
-  return;
- }
+  if(!problemEl || !answer || !bikeSelect) return;
 
- function addMessage(who,message){
-  const box=document.createElement("div");
-  box.className="entry";
-  const title=document.createElement("strong");
-  title.textContent=who;
-  const body=document.createElement("p");
-  body.textContent=message;
-  box.appendChild(title);
-  box.appendChild(body);
-  answer.appendChild(box);
- }
+  const problem = problemEl.value.trim();
+  const bike = bikeSelect.options[bikeSelect.selectedIndex]?.text || "Unknown bike";
 
- addMessage("You",problem);
+  if(!problem){
+    alert("Describe the problem first.");
+    return;
+  }
 
- const p=problem.toLowerCase();
- let reply="Let's narrow this down. When did the problem first start? Did anything change recently, such as maintenance, parts, fuel, or riding conditions?";
+  // Keep a separate conversation for each bike
+  window.motoMechanicChats = window.motoMechanicChats || {};
+  const chats = window.motoMechanicChats;
+  const chat = chats[bike] || [];
+  chats[bike] = chat;
 
- if(/overheat|hot|temperature|boiling|coolant/.test(p)){
-  reply="Overheating can cause serious engine damage. Stop riding until the cause is understood. Once the bike is completely cool, check coolant level and look for visible leaks. Never open a hot radiator. Is it actually boiling over, or just running hotter than usual?";
- }
- else if(/won't start|wont start|no start|not start|starting/.test(p)){
-  reply="Let's troubleshoot the starting problem. First check the kill switch, fuel supply, and whether the bike has normal compression. Does the engine crank over, or does absolutely nothing happen when you try to start it?";
- }
- else if(/bog|stutter|hesitat|stall|cut out/.test(p)){
-  reply="Let's narrow down the running issue. Check air filter condition, fuel quality, and recent maintenance. Does it happen at idle, when you first open the throttle, in the middle of the RPM range, or at full throttle?";
- }
- else if(/noise|knock|rattle|click|grind/.test(p)){
-  reply="New engine noises deserve attention. If you hear knocking, grinding, or a sudden loud noise, shut the engine off and don't continue riding until inspected. Where does the noise seem to come from, and does it happen at idle or while moving?";
- }
- else if(/suspension|fork|shock|sag|clicker|handling/.test(p)){
-  reply="Let's look at the suspension. Tell me your current fork and shock settings, rider weight with gear, and track conditions. What exactly does the bike do: dive, kick, feel harsh, bottom out, or feel unstable?";
- }
+  // Add messages safely to the chat window
+  function addMessage(who,message){
+    const box = document.createElement("div");
+    box.className = "entry";
 
- addMessage("MotoSetup Guide · "+bike,reply);
- problemEl.value="";
+    const title = document.createElement("strong");
+    title.textContent = who;
+
+    const body = document.createElement("p");
+    body.textContent = message;
+
+    box.appendChild(title);
+    box.appendChild(body);
+    answer.appendChild(box);
+  }
+
+  addMessage("You",problem);
+  chat.push({role:"user",text:problem});
+
+  const p = problem.toLowerCase();
+  const firstProblem = chat.find(m => m.role === "user").text.toLowerCase();
+
+  let reply = "";
+
+  // FIRST MESSAGE: Identify the main problem
+  if(chat.filter(m => m.role === "user").length === 1){
+
+    if(/overheat|hot|temperature|boiling|coolant/.test(p)){
+      reply = "Let's investigate the overheating. First, stop riding until the cause is understood. Never open a hot radiator. Once completely cool, check the coolant level and look for leaks. Is the bike actually boiling coolant, or does it just feel unusually hot?";
+
+    }else if(/won't start|wont start|no start|not start|starting|kick over|crank/.test(p)){
+      reply = "Let's diagnose the starting problem. First check the kill switch, fuel supply, and spark plug condition. Does the engine turn over normally, or does it refuse to turn over at all? Also, is this a 2-stroke or 4-stroke?";
+
+    }else if(/bog|stutter|hesitat|stall|cut out|power loss|losing power/.test(p)){
+      reply = "Let's narrow down the running problem. Check the air filter condition, fuel quality, and recent maintenance. Does it bog when you first open the throttle, in the middle of the RPM range, or at full throttle?";
+
+    }else if(/noise|knock|rattle|click|grind|tick/.test(p)){
+      reply = "Let's investigate that noise. If you hear knocking, grinding, or a sudden loud noise, shut the engine off and don't continue riding until inspected. Where does the noise seem to come from: top end, bottom end, clutch, or chain area? Does it happen at idle or when revving?";
+
+    }else if(/suspension|fork|shock|sag|clicker|handling|bottom out/.test(p)){
+      reply = "Let's work on the suspension. Tell me your rider weight with gear, current fork and shock settings, and track conditions. What exactly does the bike do: dive, kick, feel harsh, bottom out, or feel unstable?";
+
+    }else if(/clutch|slip|lever|gear|shift|transmission/.test(p)){
+      reply = "Let's troubleshoot the clutch and transmission. First, don't force the shifter if a gear is stuck. Does the clutch slip under acceleration, drag when pulled in, or is the bike having trouble shifting gears?";
+
+    }else if(/chain|sprocket|brake|wheel|tire|bearing/.test(p)){
+      reply = "Let's check that component. Don't ride if the chain, wheel, brakes, or bearings may be unsafe. What exactly is happening, and when did you first notice it?";
+
+    }else{
+      reply = "Let's figure this out together. When did you first notice the problem? Does it happen constantly, only when the engine is hot, or only while riding? Tell me what the bike is doing.";
+    }
+
+  }else{
+
+    // FOLLOW-UP MESSAGES: Use the conversation history
+    const symptom = firstProblem;
+
+    if(/overheat|hot|temperature|boiling|coolant/.test(symptom)){
+      reply = "Thanks, that helps narrow down the overheating issue. Next, with the engine completely cold, inspect the radiator, hoses, coolant level, and radiator cap. Have you noticed coolant leaking, steam, or coolant being pushed out?";
+
+    }else if(/won't start|wont start|no start|not start|starting|kick over|crank/.test(symptom)){
+      reply = "Good, we're narrowing down the starting issue. Next we need to isolate fuel, spark, and compression. Have you checked for spark at the plug, and is the spark plug wet with fuel or dry? Don't perform a spark test near spilled fuel.";
+
+    }else if(/bog|stutter|hesitat|stall|cut out|power loss|losing power/.test(symptom)){
+      reply = "That gives us more information. Let's narrow down fuel delivery, air leaks, and ignition. Does the bike run normally at idle, and does the problem happen more when the engine is cold or fully warmed up?";
+
+    }else if(/noise|knock|rattle|click|grind|tick/.test(symptom)){
+      reply = "Let's narrow down the noise. Does it get faster as engine RPM increases, or does it happen only when the bike is moving? If it's a deep knock or grinding noise, keep the engine off until it's inspected.";
+
+    }else if(/suspension|fork|shock|sag|clicker|handling|bottom out/.test(symptom)){
+      reply = "Let's narrow down the suspension behavior. Is the problem coming from the front forks or rear shock? Does it happen on braking bumps, jump landings, acceleration bumps, or through corners?";
+
+    }else if(/clutch|slip|lever|gear|shift|transmission/.test(symptom)){
+      reply = "Let's narrow down the clutch or shifting issue. Does the problem happen with the engine running, with the engine off, or both? Have you checked clutch free play and the oil condition?";
+
+    }else{
+      reply = "I'm following our conversation about your bike. Let's take this one step at a time. What have you checked so far, and what happened when you tested it?";
+    }
+
+  }
+
+  chat.push({role:"assistant",text:reply});
+
+  addMessage("MotoSetup AI Mechanic",reply);
+
+  problemEl.value = "";
+
+  answer.scrollTop = answer.scrollHeight;
 }
 
 function render(){
