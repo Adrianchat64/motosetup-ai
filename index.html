@@ -17,11 +17,12 @@ header p{color:var(--muted);margin:7px 0 0;font-size:13px}
 nav{display:flex;gap:7px;overflow-x:auto;padding:12px;background:#17191e;position:sticky;top:0;z-index:2}
 nav button{white-space:nowrap;background:#292c33;color:white;border:0;border-radius:8px;padding:11px 13px;font-weight:bold}
 nav button.active{background:var(--orange);color:#111}
-main{padding:17px;max-width:850px;margin:auto}
+main{padding:17px;max-width:900px;margin:auto}
 h1{font-size:26px;margin:8px 0}
 h2{font-size:19px;margin-top:0}
 p{line-height:1.5}
-.muted{color:var(--muted)}
+.muted,.small{color:var(--muted)}
+.small{font-size:12px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px;margin:13px 0}
 .hero{background:linear-gradient(135deg,#382317,#17191e 70%);border:1px solid #65351f;padding:22px;border-radius:14px;margin-bottom:18px}
 .hero strong{color:var(--orange)}
@@ -32,13 +33,13 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px}
 input,select,textarea{width:100%;background:#101216;color:white;border:1px solid #41444d;border-radius:8px;padding:12px;font-size:15px}
 textarea{min-height:85px;resize:vertical}
 button.primary{background:var(--orange);color:#111;font-weight:bold;border:0;border-radius:8px;padding:13px 17px;margin-top:13px;width:100%;font-size:15px}
-button.secondary{background:#30333b;color:white;border:1px solid #484b54;border-radius:8px;padding:9px 12px}
+button.secondary{background:#30333b;color:white;border:1px solid #484b54;border-radius:8px;padding:9px 12px;margin:4px 3px 4px 0}
 .entry{padding:13px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 .entry:last-child{border:0}
 .hidden{display:none!important}
 footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
-.small{font-size:12px;color:var(--muted)}
-.entry button{margin-top:8px}
+.badge{display:inline-block;background:#393027;color:#ff995f;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold}
+.activeBike{border:1px solid var(--orange);border-radius:10px;padding:12px;margin:10px 0;background:#28221e}
 </style>
 </head>
 <body>
@@ -46,92 +47,107 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
  <div class="logo">MOTOSETUP <span>AI</span></div>
  <p>Ride smarter. Set up better. Race harder.</p>
 </header>
-
 <nav id="nav">
  <button class="active" data-page="home">Home</button>
+ <button data-page="profiles">Riders</button>
  <button data-page="garage">My Garage</button>
  <button data-page="suspension">Suspension</button>
  <button data-page="maintenance">Maintenance</button>
  <button data-page="gearing">Gearing</button>
  <button data-page="mechanic">AI Mechanic</button>
 </nav>
-
 <main>
+
 <section id="home">
  <div class="hero">
   <p><strong>WELCOME TO MOTOSETUP AI</strong></p>
   <h1>Your bike. Your setup. Your progress.</h1>
-  <p class="muted">One place to manage your bikes, suspension settings, maintenance and gearing.</p>
+  <p class="muted">Your motocross garage, rider profiles, suspension and maintenance in one place.</p>
   <button class="primary" onclick="showPage('garage')">OPEN MY GARAGE</button>
  </div>
  <div class="stats">
   <div class="stat"><b id="bikeCount">0</b>Saved bikes</div>
+  <div class="stat"><b id="riderCount">0</b>Rider profiles</div>
   <div class="stat"><b id="setupCount">0</b>Suspension records</div>
   <div class="stat"><b id="maintenanceCount">0</b>Maintenance records</div>
-  <div class="stat"><b>64</b>Ready to ride</div>
  </div>
  <div class="card">
-  <h2>Start here</h2>
-  <p class="muted">Add your bike to start building its own setup and maintenance history.</p>
-  <button class="primary" onclick="showPage('garage')">ADD A BIKE</button>
+  <h2>Active rider</h2><div id="homeRider" class="muted">No rider selected.</div>
+  <h2 style="margin-top:20px">Active bike</h2><div id="homeBike" class="muted">No bike selected.</div>
+  <button class="primary" onclick="showPage('profiles')">MANAGE RIDERS</button>
+  <button class="primary" onclick="showPage('garage')">MANAGE BIKES</button>
  </div>
+</section>
+
+<section id="profiles" class="hidden">
+ <h1>Rider Profiles</h1>
+ <p class="muted">Save rider information separately so setups can be personalized.</p>
+ <div class="card">
+  <h2 id="riderFormTitle">Add a rider</h2>
+  <input id="riderId" type="hidden">
+  <label>Rider name</label><input id="rName" placeholder="Name">
+  <label>Weight with riding gear (lb)</label><input id="rWeight" type="number" placeholder="130">
+  <label>Height</label><input id="rHeight" placeholder="5'6&quot;">
+  <label>Experience level</label>
+  <select id="rLevel"><option>C class</option><option>B class</option><option>A class</option><option>Pro</option><option>Beginner</option><option>Intermediate</option></select>
+  <label>Riding style</label>
+  <select id="rStyle"><option>Motocross</option><option>Supercross</option><option>Trail</option><option>Enduro</option><option>Mixed</option></select>
+  <label>Riding preferences / notes</label><textarea id="rNotes" placeholder="Riding style, preferences, goals..."></textarea>
+  <button class="primary" onclick="saveRider()">SAVE RIDER</button>
+  <button class="secondary" onclick="clearRiderForm()">CANCEL EDIT</button>
+ </div>
+ <div class="card"><h2>Your riders</h2><div id="riderList"></div></div>
+ <p class="small">Prototype storage is local to this browser. Cloud accounts will be added later.</p>
 </section>
 
 <section id="garage" class="hidden">
  <h1>My Garage</h1>
- <p class="muted">Keep your bikes and their information organized.</p>
+ <p class="muted">Manage your bikes and their individual records.</p>
  <div class="card">
-  <h2>Add a bike</h2>
+  <h2 id="bikeFormTitle">Add a bike</h2>
+  <input id="bikeId" type="hidden">
   <label>Manufacturer</label>
-  <select id="make">
-   <option>KTM</option><option>Yamaha</option><option>Kawasaki</option>
-   <option>Honda</option><option>Suzuki</option><option>GasGas</option>
-   <option>Husqvarna</option><option>Triumph</option><option>Other</option>
-  </select>
+  <select id="make"><option>KTM</option><option>Yamaha</option><option>Kawasaki</option><option>Honda</option><option>Suzuki</option><option>GasGas</option><option>Husqvarna</option><option>Triumph</option><option>Other</option></select>
   <label>Year</label><input id="year" type="number" placeholder="2024">
   <label>Model</label><input id="model" placeholder="125 SX">
-  <label>Engine type</label>
-  <select id="engine"><option>2-stroke</option><option>4-stroke</option></select>
-  <label>Engine hours</label><input id="hours" type="number" placeholder="0">
-  <button class="primary" onclick="addBike()">SAVE BIKE</button>
+  <label>Engine type</label><select id="engine"><option>2-stroke</option><option>4-stroke</option></select>
+  <label>Engine hours</label><input id="hours" type="number" min="0" step=".1" placeholder="0">
+  <label>Bike notes / modifications</label><textarea id="bikeNotes" placeholder="Pipe, ECU, suspension changes, other modifications..."></textarea>
+  <button class="primary" onclick="saveBike()">SAVE BIKE</button>
+  <button class="secondary" onclick="clearBikeForm()">CANCEL EDIT</button>
  </div>
+ <div class="card"><h2>Active bike</h2><div id="activeBikeDisplay" class="muted">No active bike.</div></div>
  <div class="card"><h2>Your bikes</h2><div id="bikes"></div></div>
 </section>
 
 <section id="suspension" class="hidden">
  <h1>Suspension Setup Center</h1>
- <p class="muted">Record settings, test changes and track what works.</p>
+ <p class="muted">Save and compare settings for each bike and rider.</p>
  <div class="card">
   <h2>Save a setup</h2>
   <label>Bike</label><select id="sBike"></select>
-  <label>Rider</label><input id="rider" placeholder="Rider name">
-  <label>Fork compression (clicks out)</label><input id="fc" placeholder="Example: 12">
-  <label>Fork rebound (clicks out)</label><input id="fr" placeholder="Example: 10">
-  <label>Shock compression (clicks out)</label><input id="sc" placeholder="Example: 12">
-  <label>Shock rebound (clicks out)</label><input id="sr" placeholder="Example: 10">
-  <label>Race sag (mm)</label><input id="sag" type="number" placeholder="Example: 105">
-  <label>Track conditions</label>
-  <select id="conditions"><option>Hard pack</option><option>Loam</option><option>Sand</option><option>Rutted</option><option>Wet</option><option>Mixed</option></select>
-  <label>How did the bike feel?</label><textarea id="feedback" placeholder="Describe handling, comfort, stability..."></textarea>
-  <label>Did the changes help?</label>
-  <select id="result"><option>Not tested yet</option><option>Improved</option><option>About the same</option><option>Worse</option></select>
+  <label>Rider</label><select id="sRider"></select>
+  <label>Fork compression (clicks out)</label><input id="fc" type="number" placeholder="12">
+  <label>Fork rebound (clicks out)</label><input id="fr" type="number" placeholder="10">
+  <label>Shock compression (clicks out)</label><input id="sc" type="number" placeholder="12">
+  <label>Shock rebound (clicks out)</label><input id="sr" type="number" placeholder="10">
+  <label>Race sag (mm)</label><input id="sag" type="number" placeholder="105">
+  <label>Track conditions</label><select id="conditions"><option>Hard pack</option><option>Loam</option><option>Sand</option><option>Rutted</option><option>Wet</option><option>Mixed</option></select>
+  <label>How did the bike feel?</label><textarea id="feedback" placeholder="Handling, comfort, stability..."></textarea>
+  <label>Result</label><select id="result"><option>Not tested yet</option><option>Improved</option><option>About the same</option><option>Worse</option></select>
   <button class="primary" onclick="saveSetup()">SAVE SETUP</button>
  </div>
- <div class="card"><h2>Suspension Testing History</h2><div id="setups"></div></div>
+ <div class="card"><h2>Suspension history</h2><div id="setups"></div></div>
 </section>
 
 <section id="maintenance" class="hidden">
  <h1>Maintenance Center</h1>
- <p class="muted">Keep track of the work you've done on each bike.</p>
+ <p class="muted">Track service history separately for each motorcycle.</p>
  <div class="card">
   <h2>Log maintenance</h2>
   <label>Bike</label><select id="mBike"></select>
   <label>Service performed</label>
-  <select id="service">
-   <option>Engine oil</option><option>Air filter</option><option>Chain maintenance</option>
-   <option>Sprockets</option><option>Top end</option><option>Valve check</option>
-   <option>Coolant</option><option>Other</option>
-  </select>
+  <select id="service"><option>Engine oil</option><option>Air filter</option><option>Chain maintenance</option><option>Sprockets</option><option>Top end</option><option>Valve check</option><option>Coolant</option><option>Brake fluid</option><option>Brake pads</option><option>Wheel bearings</option><option>Other</option></select>
   <label>Engine hours</label><input id="mHours" type="number" placeholder="Hours at service">
   <label>Date</label><input id="mDate" type="date">
   <label>Notes</label><textarea id="mNotes" placeholder="Parts used, work performed..."></textarea>
@@ -142,36 +158,30 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
 
 <section id="gearing" class="hidden">
  <h1>Gearing Calculator</h1>
- <p class="muted">Compare final drive ratios for different sprocket combinations.</p>
+ <p class="muted">Compare final drive ratios.</p>
  <div class="card">
+  <label>Bike (optional)</label><select id="gBike"></select>
   <label>Front sprocket teeth</label><input id="front" type="number" value="13">
   <label>Rear sprocket teeth</label><input id="rear" type="number" value="50">
   <button class="primary" onclick="calculate()">CALCULATE RATIO</button>
   <h2 id="ratio" style="color:var(--orange);margin-top:20px">3.846</h2>
   <p id="gearingInfo" class="muted">Enter your sprocket sizes to compare gearing.</p>
  </div>
- <div class="card">
-  <h2>Understanding gearing</h2>
-  <p>A higher final drive ratio generally gives shorter gearing and more wheel torque. A lower ratio generally gives taller gearing and lower engine RPM at the same speed.</p>
-  <p class="muted">Actual results depend on the bike, transmission, tire size and track.</p>
- </div>
+ <div class="card"><h2>Understanding gearing</h2><p>A higher final drive ratio generally gives shorter gearing and more wheel torque. A lower ratio generally gives taller gearing and lower engine RPM at the same speed. Actual results depend on the bike and track.</p></div>
 </section>
 
 <section id="mechanic" class="hidden">
  <h1>AI Mechanic</h1>
- <p class="muted">A place to organize bike problems and symptoms.</p>
+ <p class="muted">Demo troubleshooting assistant.</p>
  <div class="card">
-  <h2>Describe your problem</h2>
   <label>Bike</label><select id="problemBike"></select>
-  <label>What is happening?</label>
-  <textarea id="problem" placeholder="Example: Bike bogs when I open the throttle..."></textarea>
+  <label>What is happening?</label><textarea id="problem" placeholder="Describe the problem..."></textarea>
   <button class="primary" onclick="mechanicHelp()">REVIEW MY PROBLEM</button>
-  <div id="mechanicAnswer" class="entry"></div>
+  <div id="mechanicAnswer"></div>
  </div>
- <p class="small">This first version uses a demo response, not a live AI diagnosis. Verify technical specifications and safety-critical repairs using the correct manufacturer service manual.</p>
+ <p class="small">Demo responses only, not a live AI diagnosis. Verify safety-critical work with the correct service manual.</p>
 </section>
 </main>
-
 <footer>MOTOSETUP AI · Ride smarter. Set up better. Race harder.</footer>
 
 <script>
@@ -179,12 +189,46 @@ function getData(key){
  try{return JSON.parse(localStorage.getItem("moto_"+key)||"[]")}
  catch(e){return []}
 }
-function putData(key,data){
- localStorage.setItem("moto_"+key,JSON.stringify(data));
-}
+function putData(key,data){localStorage.setItem("moto_"+key,JSON.stringify(data))}
+function makeId(){return "id_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,9)}
+
 let bikes=getData("bikes");
 let setups=getData("setups");
 let maintenance=getData("maintenance");
+let riders=getData("riders");
+let activeBikeId=localStorage.getItem("moto_activeBike")||"";
+let activeRiderId=localStorage.getItem("moto_activeRider")||"";
+
+// Migrate existing bike and record data to permanent IDs.
+bikes.forEach(b=>{if(!b.id)b.id=makeId()});
+setups.forEach(s=>{
+ if(s.bikeId===undefined){
+  const old=bikes[Number(s.bike)];
+  s.bikeId=old?.id||"";
+ }
+ delete s.bike;
+});
+maintenance.forEach(m=>{
+ if(m.bikeId===undefined){
+  const old=bikes[Number(m.bike)];
+  m.bikeId=old?.id||"";
+ }
+ delete m.bike;
+});
+bikes.forEach(b=>{
+ if(b.notes===undefined)b.notes="";
+});
+putData("bikes",bikes);
+putData("setups",setups);
+putData("maintenance",maintenance);
+
+function safe(t){
+ return String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+}
+function getBike(id){return bikes.find(b=>b.id===id)}
+function bikeName(b){return b?safe(b.year+" "+b.make+" "+b.model):"Unknown bike"}
+function getRider(id){return riders.find(r=>r.id===id)}
+function riderName(r){return r?safe(r.name):"No rider selected"}
 
 function showPage(page){
  document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
@@ -193,68 +237,130 @@ function showPage(page){
  render();
  window.scrollTo(0,0);
 }
-
 document.getElementById("nav").addEventListener("click",e=>{
- const button=e.target.closest("button[data-page]");
- if(button)showPage(button.dataset.page);
+ const b=e.target.closest("button[data-page]");
+ if(b)showPage(b.dataset.page);
 });
 
-function safe(text){
- return String(text??"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- })[c]);
-}
-
-function bikeName(index){
- const b=bikes[index];
- return b?safe(b.year+" "+b.make+" "+b.model):"Unknown bike";
-}
-
-function updateBikeSelectors(){
- ["sBike","mBike","problemBike"].forEach(id=>{
+function updateSelectors(){
+ const configs=[["sBike",bikes,activeBikeId],["mBike",bikes,activeBikeId],["gBike",bikes,activeBikeId],["problemBike",bikes,activeBikeId]];
+ configs.forEach(([id,list,selected])=>{
   const el=document.getElementById(id);
-  const previous=el.value;
-  el.innerHTML=bikes.length
-   ?bikes.map((b,i)=>`<option value="${i}">${bikeName(i)}</option>`).join("")
-   :'<option value="">Add a bike first</option>';
-  if(previous!==""&&Number(previous)<bikes.length)el.value=previous;
+  el.innerHTML=list.length?list.map(b=>`<option value="${b.id}">${bikeName(b)}</option>`).join(""):'<option value="">Add a bike first</option>';
+  if(list.some(b=>b.id===selected))el.value=selected;
  });
+ const el=document.getElementById("sRider");
+ el.innerHTML=riders.length?riders.map(r=>`<option value="${r.id}">${riderName(r)}</option>`).join(""):'<option value="">Add a rider first</option>';
+ if(riders.some(r=>r.id===activeRiderId))el.value=activeRiderId;
 }
 
-function addBike(){
+function saveBike(){
+ const editId=document.getElementById("bikeId").value;
  const b={
+  id:editId||makeId(),
   make:document.getElementById("make").value,
   year:document.getElementById("year").value,
   model:document.getElementById("model").value.trim(),
   engine:document.getElementById("engine").value,
-  hours:document.getElementById("hours").value
+  hours:document.getElementById("hours").value,
+  notes:document.getElementById("bikeNotes").value
  };
  if(!b.year||!b.model){alert("Enter the bike year and model.");return}
- bikes.push(b);
+ if(editId){
+  bikes=bikes.map(old=>old.id===editId?b:old);
+ }else{
+  bikes.push(b);
+  if(!activeBikeId)activeBikeId=b.id;
+ }
  putData("bikes",bikes);
- document.getElementById("year").value="";
- document.getElementById("model").value="";
- document.getElementById("hours").value="";
+ localStorage.setItem("moto_activeBike",activeBikeId);
+ clearBikeForm();
  render();
- alert("Bike saved!");
+ alert(editId?"Bike updated!":"Bike saved!");
+}
+function editBike(id){
+ const b=getBike(id);if(!b)return;
+ document.getElementById("bikeId").value=b.id;
+ document.getElementById("bikeFormTitle").textContent="Edit bike";
+ ["make","year","model","engine","hours"].forEach(k=>document.getElementById(k).value=b[k]||"");
+ document.getElementById("bikeNotes").value=b.notes||"";
+ window.scrollTo(0,0);
+}
+function clearBikeForm(){
+ document.getElementById("bikeId").value="";
+ document.getElementById("bikeFormTitle").textContent="Add a bike";
+ document.getElementById("make").value="KTM";
+ ["year","model","hours","bikeNotes"].forEach(k=>document.getElementById(k).value="");
+ document.getElementById("engine").value="2-stroke";
+}
+function setActiveBike(id){
+ if(!getBike(id))return;
+ activeBikeId=id;localStorage.setItem("moto_activeBike",id);render();
+}
+function deleteBike(id){
+ if(!confirm("Delete this bike and its associated records?"))return;
+ bikes=bikes.filter(b=>b.id!==id);
+ setups=setups.filter(s=>s.bikeId!==id);
+ maintenance=maintenance.filter(m=>m.bikeId!==id);
+ if(activeBikeId===id)activeBikeId=bikes[0]?.id||"";
+ localStorage.setItem("moto_activeBike",activeBikeId);
+ putData("bikes",bikes);putData("setups",setups);putData("maintenance",maintenance);
+ render();
 }
 
-function deleteBike(index){
- if(!confirm("Delete this bike and its associated setup and maintenance records?"))return;
- bikes.splice(index,1);
- setups=setups.filter(s=>Number(s.bike)!==index).map(s=>({...s,bike:Number(s.bike)>index?Number(s.bike)-1:s.bike}));
- maintenance=maintenance.filter(m=>Number(m.bike)!==index).map(m=>({...m,bike:Number(m.bike)>index?Number(m.bike)-1:m.bike}));
- putData("bikes",bikes);
- putData("setups",setups);
- putData("maintenance",maintenance);
- render();
+function saveRider(){
+ const id=document.getElementById("riderId").value;
+ const r={
+  id:id||makeId(),
+  name:document.getElementById("rName").value.trim(),
+  weight:document.getElementById("rWeight").value,
+  height:document.getElementById("rHeight").value.trim(),
+  level:document.getElementById("rLevel").value,
+  style:document.getElementById("rStyle").value,
+  notes:document.getElementById("rNotes").value
+ };
+ if(!r.name){alert("Enter a rider name.");return}
+ if(id)riders=riders.map(old=>old.id===id?r:old);
+ else{riders.push(r);if(!activeRiderId)activeRiderId=r.id}
+ putData("riders",riders);
+ localStorage.setItem("moto_activeRider",activeRiderId);
+ clearRiderForm();render();alert(id?"Rider updated!":"Rider saved!");
+}
+function editRider(id){
+ const r=getRider(id);if(!r)return;
+ document.getElementById("riderId").value=r.id;
+ document.getElementById("riderFormTitle").textContent="Edit rider";
+ document.getElementById("rName").value=r.name;
+ document.getElementById("rWeight").value=r.weight||"";
+ document.getElementById("rHeight").value=r.height||"";
+ document.getElementById("rLevel").value=r.level||"C class";
+ document.getElementById("rStyle").value=r.style||"Motocross";
+ document.getElementById("rNotes").value=r.notes||"";
+ window.scrollTo(0,0);
+}
+function clearRiderForm(){
+ document.getElementById("riderId").value="";
+ document.getElementById("riderFormTitle").textContent="Add a rider";
+ ["rName","rWeight","rHeight","rNotes"].forEach(k=>document.getElementById(k).value="");
+}
+function setActiveRider(id){
+ if(!getRider(id))return;
+ activeRiderId=id;localStorage.setItem("moto_activeRider",id);render();
+}
+function deleteRider(id){
+ if(!confirm("Delete this rider profile? Existing bike and maintenance records will remain."))return;
+ riders=riders.filter(r=>r.id!==id);
+ if(activeRiderId===id)activeRiderId=riders[0]?.id||"";
+ localStorage.setItem("moto_activeRider",activeRiderId);
+ putData("riders",riders);render();
 }
 
 function saveSetup(){
- if(!bikes.length){alert("Add a bike to your garage first.");return}
+ const bikeId=document.getElementById("sBike").value;
+ if(!getBike(bikeId)){alert("Add a bike first.");return}
  const setup={
-  bike:document.getElementById("sBike").value,
-  rider:document.getElementById("rider").value,
+  id:makeId(),bikeId,
+  riderId:document.getElementById("sRider").value,
   fc:document.getElementById("fc").value,
   fr:document.getElementById("fr").value,
   sc:document.getElementById("sc").value,
@@ -265,195 +371,100 @@ function saveSetup(){
   result:document.getElementById("result").value,
   date:new Date().toLocaleDateString()
  };
- setups.unshift(setup);
- putData("setups",setups);
- document.getElementById("feedback").value="";
- render();
- alert("Suspension setup saved!");
+ setups.unshift(setup);putData("setups",setups);
+ document.getElementById("feedback").value="";render();alert("Suspension setup saved!");
 }
 
 function saveMaintenance(){
- if(!bikes.length){alert("Add a bike to your garage first.");return}
+ const bikeId=document.getElementById("mBike").value;
+ if(!getBike(bikeId)){alert("Add a bike first.");return}
  const record={
-  bike:document.getElementById("mBike").value,
+  id:makeId(),bikeId,
   service:document.getElementById("service").value,
   hours:document.getElementById("mHours").value,
   date:document.getElementById("mDate").value,
   notes:document.getElementById("mNotes").value
  };
- maintenance.unshift(record);
- putData("maintenance",maintenance);
- document.getElementById("mNotes").value="";
- render();
- alert("Maintenance saved!");
+ maintenance.unshift(record);putData("maintenance",maintenance);
+ document.getElementById("mNotes").value="";render();alert("Maintenance saved!");
 }
-
 function calculate(){
  const f=Number(document.getElementById("front").value);
  const r=Number(document.getElementById("rear").value);
- if(f<=0||r<=0||!Number.isFinite(f)||!Number.isFinite(r)){
-  alert("Enter valid sprocket sizes.");return;
- }
+ if(!Number.isFinite(f)||!Number.isFinite(r)||f<=0||r<=0){alert("Enter valid sprocket sizes.");return}
  const value=r/f;
  document.getElementById("ratio").textContent=value.toFixed(3);
- document.getElementById("gearingInfo").textContent=
-  `${r} ÷ ${f} = ${value.toFixed(3)} final drive ratio. Compare this with your current gearing.`;
+ document.getElementById("gearingInfo").textContent=`${r} ÷ ${f} = ${value.toFixed(3)} final drive ratio. Compare with your current gearing.`;
 }
 
-
 function mechanicHelp(){
-  const problemEl = document.getElementById("problem");
-  const answer = document.getElementById("mechanicAnswer");
-  const bikeSelect = document.getElementById("problemBike");
-
-  if(!problemEl || !answer || !bikeSelect) return;
-
-  const problem = problemEl.value.trim();
-  const bike = bikeSelect.options[bikeSelect.selectedIndex]?.text || "Unknown bike";
-
-  if(!problem){
-    alert("Describe the problem first.");
-    return;
-  }
-
-  // Keep a separate conversation for each bike
-  window.motoMechanicChats = window.motoMechanicChats || {};
-  const chats = window.motoMechanicChats;
-  const chat = chats[bike] || [];
-  chats[bike] = chat;
-
-  // Add messages safely to the chat window
-  function addMessage(who,message){
-    const box = document.createElement("div");
-    box.className = "entry";
-
-    const title = document.createElement("strong");
-    title.textContent = who;
-
-    const body = document.createElement("p");
-    body.textContent = message;
-
-    box.appendChild(title);
-    box.appendChild(body);
-    answer.appendChild(box);
-  }
-
-  addMessage("You",problem);
-  chat.push({role:"user",text:problem});
-
-  const p = problem.toLowerCase();
-  const firstProblem = chat.find(m => m.role === "user").text.toLowerCase();
-
-  let reply = "";
-
-  // FIRST MESSAGE: Identify the main problem
-  if(chat.filter(m => m.role === "user").length === 1){
-
-    if(/overheat|hot|temperature|boiling|coolant/.test(p)){
-      reply = "Let's investigate the overheating. First, stop riding until the cause is understood. Never open a hot radiator. Once completely cool, check the coolant level and look for leaks. Is the bike actually boiling coolant, or does it just feel unusually hot?";
-
-    }else if(/won't start|wont start|no start|not start|starting|kick over|crank/.test(p)){
-      reply = "Let's diagnose the starting problem. First check the kill switch, fuel supply, and spark plug condition. Does the engine turn over normally, or does it refuse to turn over at all? Also, is this a 2-stroke or 4-stroke?";
-
-    }else if(/bog|stutter|hesitat|stall|cut out|power loss|losing power/.test(p)){
-      reply = "Let's narrow down the running problem. Check the air filter condition, fuel quality, and recent maintenance. Does it bog when you first open the throttle, in the middle of the RPM range, or at full throttle?";
-
-    }else if(/noise|knock|rattle|click|grind|tick/.test(p)){
-      reply = "Let's investigate that noise. If you hear knocking, grinding, or a sudden loud noise, shut the engine off and don't continue riding until inspected. Where does the noise seem to come from: top end, bottom end, clutch, or chain area? Does it happen at idle or when revving?";
-
-    }else if(/suspension|fork|shock|sag|clicker|handling|bottom out/.test(p)){
-      reply = "Let's work on the suspension. Tell me your rider weight with gear, current fork and shock settings, and track conditions. What exactly does the bike do: dive, kick, feel harsh, bottom out, or feel unstable?";
-
-    }else if(/clutch|slip|lever|gear|shift|transmission/.test(p)){
-      reply = "Let's troubleshoot the clutch and transmission. First, don't force the shifter if a gear is stuck. Does the clutch slip under acceleration, drag when pulled in, or is the bike having trouble shifting gears?";
-
-    }else if(/chain|sprocket|brake|wheel|tire|bearing/.test(p)){
-      reply = "Let's check that component. Don't ride if the chain, wheel, brakes, or bearings may be unsafe. What exactly is happening, and when did you first notice it?";
-
-    }else{
-      reply = "Let's figure this out together. When did you first notice the problem? Does it happen constantly, only when the engine is hot, or only while riding? Tell me what the bike is doing.";
-    }
-
-  }else{
-
-    // FOLLOW-UP MESSAGES: Use the conversation history
-    const symptom = firstProblem;
-
-    if(/overheat|hot|temperature|boiling|coolant/.test(symptom)){
-      reply = "Thanks, that helps narrow down the overheating issue. Next, with the engine completely cold, inspect the radiator, hoses, coolant level, and radiator cap. Have you noticed coolant leaking, steam, or coolant being pushed out?";
-
-    }else if(/won't start|wont start|no start|not start|starting|kick over|crank/.test(symptom)){
-      reply = "Good, we're narrowing down the starting issue. Next we need to isolate fuel, spark, and compression. Have you checked for spark at the plug, and is the spark plug wet with fuel or dry? Don't perform a spark test near spilled fuel.";
-
-    }else if(/bog|stutter|hesitat|stall|cut out|power loss|losing power/.test(symptom)){
-      reply = "That gives us more information. Let's narrow down fuel delivery, air leaks, and ignition. Does the bike run normally at idle, and does the problem happen more when the engine is cold or fully warmed up?";
-
-    }else if(/noise|knock|rattle|click|grind|tick/.test(symptom)){
-      reply = "Let's narrow down the noise. Does it get faster as engine RPM increases, or does it happen only when the bike is moving? If it's a deep knock or grinding noise, keep the engine off until it's inspected.";
-
-    }else if(/suspension|fork|shock|sag|clicker|handling|bottom out/.test(symptom)){
-      reply = "Let's narrow down the suspension behavior. Is the problem coming from the front forks or rear shock? Does it happen on braking bumps, jump landings, acceleration bumps, or through corners?";
-
-    }else if(/clutch|slip|lever|gear|shift|transmission/.test(symptom)){
-      reply = "Let's narrow down the clutch or shifting issue. Does the problem happen with the engine running, with the engine off, or both? Have you checked clutch free play and the oil condition?";
-
-    }else{
-      reply = "I'm following our conversation about your bike. Let's take this one step at a time. What have you checked so far, and what happened when you tested it?";
-    }
-
-  }
-
-  chat.push({role:"assistant",text:reply});
-
-  addMessage("MotoSetup AI Mechanic",reply);
-
-  problemEl.value = "";
-
-  answer.scrollTop = answer.scrollHeight;
+ const problem=document.getElementById("problem").value.trim();
+ const answer=document.getElementById("mechanicAnswer");
+ if(!problem){alert("Describe the problem first.");return}
+ const p=problem.toLowerCase();
+ let reply="Tell me when the problem happens, what you have checked, and what changed recently.";
+ if(/overheat|hot|coolant/.test(p))reply="Stop riding if it is overheating. Let it cool completely before checking coolant. Never open a hot radiator. Are you seeing steam, coolant loss, or just high temperature?";
+ else if(/bog|stutter|stall/.test(p))reply="Let's narrow down fuel, air and ignition. Does it bog at low throttle, midrange or full throttle? Check the air filter and fuel condition first.";
+ else if(/start|spark/.test(p))reply="Let's check fuel, spark and compression. Does the engine turn over normally? Is the plug wet or dry? Keep spark testing away from spilled fuel.";
+ else if(/suspension|fork|shock|sag/.test(p))reply="Which end is causing the problem, front or rear? Does it happen on braking bumps, jump landings, acceleration bumps or corners?";
+ else if(/noise|knock|grind/.test(p))reply="If it is a deep knock or grinding noise, shut the engine off and don't ride until inspected. Where does the noise come from?";
+ else if(/chain|brake|wheel/.test(p))reply="Don't ride if a chain, brake or wheel component may be unsafe. What exactly is happening and when did it start?";
+ const bike=document.getElementById("problemBike").selectedOptions[0]?.text||"Bike";
+ const box=document.createElement("div");box.className="entry";
+ const strong=document.createElement("strong");strong.textContent="MotoSetup AI demo · "+bike;
+ const text=document.createElement("p");text.textContent=reply;
+ box.append(strong,text);answer.append(box);
+ document.getElementById("problem").value="";
 }
 
 function render(){
- bikes=getData("bikes");
- setups=getData("setups");
- maintenance=getData("maintenance");
+ bikes=getData("bikes");setups=getData("setups");maintenance=getData("maintenance");riders=getData("riders");
+ if(!getBike(activeBikeId)){activeBikeId=bikes[0]?.id||"";localStorage.setItem("moto_activeBike",activeBikeId)}
+ if(!getRider(activeRiderId)){activeRiderId=riders[0]?.id||"";localStorage.setItem("moto_activeRider",activeRiderId)}
  document.getElementById("bikeCount").textContent=bikes.length;
+ document.getElementById("riderCount").textContent=riders.length;
  document.getElementById("setupCount").textContent=setups.length;
  document.getElementById("maintenanceCount").textContent=maintenance.length;
- updateBikeSelectors();
+ updateSelectors();
 
- document.getElementById("bikes").innerHTML=bikes.length
-  ?bikes.map((b,i)=>`
-   <div class="entry">
-    <strong>${bikeName(i)}</strong>
-    <p class="small">${safe(b.engine)} · ${safe(b.hours||"0")} engine hours</p>
-    <button class="secondary" onclick="deleteBike(${i})">Delete bike</button>
-   </div>`).join("")
-  :'<p class="muted">No bikes added yet. Add your first bike above.</p>';
+ const active=getBike(activeBikeId), rider=getRider(activeRiderId);
+ document.getElementById("homeBike").textContent=active?bikeName(active):"No bike selected.";
+ document.getElementById("homeRider").textContent=rider?rider.name+" · "+rider.level+" · "+(rider.weight||"Weight not entered")+" lb":"No rider selected.";
+ document.getElementById("activeBikeDisplay").innerHTML=active?`<div class="activeBike"><strong>${bikeName(active)}</strong><p>${safe(active.engine)} · ${safe(active.hours||"0")} engine hours</p><span class="badge">ACTIVE BIKE</span></div>`:"No active bike selected.";
 
- document.getElementById("setups").innerHTML=setups.length
-  ?setups.map(s=>`
-   <div class="entry">
-    <strong>${bikeName(Number(s.bike))}</strong>
-    <p class="small">${safe(s.date)} · ${safe(s.rider||"Rider not specified")}</p>
-    <p>Fork compression: ${safe(s.fc||"—")} · Rebound: ${safe(s.fr||"—")}</p>
-    <p>Shock compression: ${safe(s.sc||"—")} · Rebound: ${safe(s.sr||"—")}</p>
-    <p>Sag: ${safe(s.sag||"—")} mm · Track: ${safe(s.conditions)}</p>
-    <p>Result: <strong>${safe(s.result)}</strong></p>
-    <p>${safe(s.feedback||"No feedback entered.")}</p>
-   </div>`).join("")
-  :'<p class="muted">Your suspension tests will appear here.</p>';
+ document.getElementById("bikes").innerHTML=bikes.length?bikes.map(b=>`
+ <div class="entry">
+ <strong>${bikeName(b)}</strong>
+ <p class="small">${safe(b.engine)} · ${safe(b.hours||"0")} engine hours</p>
+ <p class="small">${safe(b.notes||"No modifications or notes added.")}</p>
+ ${b.id===activeBikeId?'<span class="badge">ACTIVE</span>':`<button class="secondary" onclick="setActiveBike('${b.id}')">Set active</button>`}
+ <button class="secondary" onclick="editBike('${b.id}')">Edit</button>
+ <button class="secondary" onclick="deleteBike('${b.id}')">Delete</button>
+ </div>`).join(""):'<p class="muted">No bikes added yet.</p>';
 
- document.getElementById("maintenanceList").innerHTML=maintenance.length
-  ?maintenance.map(m=>`
-   <div class="entry">
-    <strong>${safe(m.service)}</strong>
-    <p class="small">${bikeName(Number(m.bike))} · ${safe(m.date||"Date not entered")}</p>
-    <p>Engine hours: ${safe(m.hours||"Not entered")}</p>
-    <p>${safe(m.notes||"No notes.")}</p>
-   </div>`).join("")
-  :'<p class="muted">Your maintenance records will appear here.</p>';
+ document.getElementById("riderList").innerHTML=riders.length?riders.map(r=>`
+ <div class="entry"><strong>${safe(r.name)}</strong>
+ <p class="small">${safe(r.level)} · ${safe(r.style)} · ${safe(r.weight||"Not entered")} lb · ${safe(r.height||"Height not entered")}</p>
+ <p>${safe(r.notes||"No additional notes.")}</p>
+ ${r.id===activeRiderId?'<span class="badge">ACTIVE RIDER</span>':`<button class="secondary" onclick="setActiveRider('${r.id}')">Set active</button>`}
+ <button class="secondary" onclick="editRider('${r.id}')">Edit</button>
+ <button class="secondary" onclick="deleteRider('${r.id}')">Delete</button>
+ </div>`).join(""):'<p class="muted">No rider profiles yet. Add your first rider above.</p>';
+
+ document.getElementById("setups").innerHTML=setups.length?setups.map(s=>`
+ <div class="entry"><strong>${bikeName(getBike(s.bikeId))}</strong>
+ <p class="small">${safe(s.date)} · ${riderName(getRider(s.riderId))}</p>
+ <p>Fork compression: ${safe(s.fc||"—")} · Rebound: ${safe(s.fr||"—")}</p>
+ <p>Shock compression: ${safe(s.sc||"—")} · Rebound: ${safe(s.sr||"—")}</p>
+ <p>Sag: ${safe(s.sag||"—")} mm · Track: ${safe(s.conditions)}</p>
+ <p>Result: ${safe(s.result)}</p><p>${safe(s.feedback||"No feedback.")}</p></div>`).join(""):'<p class="muted">No suspension records yet.</p>';
+
+ document.getElementById("maintenanceList").innerHTML=maintenance.length?maintenance.map(m=>`
+ <div class="entry"><strong>${safe(m.service)}</strong>
+ <p class="small">${bikeName(getBike(m.bikeId))} · ${safe(m.date||"Date not entered")}</p>
+ <p>Engine hours: ${safe(m.hours||"Not entered")}</p>
+ <p>${safe(m.notes||"No notes.")}</p></div>`).join(""):'<p class="muted">No maintenance records yet.</p>';
 }
-
 render();
 </script>
 </body>
