@@ -7,47 +7,106 @@
 <meta name="theme-color" content="#101114">
 <title>MotoSetup AI</title>
 <style>
-:root{--bg:#101114;--panel:#1b1d22;--orange:#ff641e;--muted:#a5a8b0;--line:#30333b}
+:root{color-scheme:dark;--bg:#0b0e12;--panel:#14191f;--panel-raised:#1c232b;--accent:#9aa8bb;--accent-ink:#11151a;--muted:#aab4c0;--line:#303945;--surface-glass:rgba(18,23,29,.88);--shadow:0 18px 44px rgba(0,0,0,.24)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
-header{padding:22px 18px;background:#17191e;border-bottom:2px solid var(--orange)}
-.logo{font-size:25px;font-weight:900;letter-spacing:1px}
-.logo span{color:var(--orange)}
-header p{color:var(--muted);margin:7px 0 0;font-size:13px}
-nav{display:flex;gap:7px;overflow-x:auto;padding:12px;background:#17191e;position:sticky;top:0;z-index:2}
-nav button{white-space:nowrap;background:#292c33;color:white;border:0;border-radius:8px;padding:11px 13px;font-weight:bold}
-nav button.active{background:var(--orange);color:#111}
-main{padding:17px;max-width:900px;margin:auto}
-h1{font-size:26px;margin:8px 0}
-h2{font-size:19px;margin-top:0}
-p{line-height:1.5}
+body{margin:0;background:radial-gradient(ellipse at 12% 0%,rgba(143,160,184,.12),transparent 36%),radial-gradient(ellipse at 94% 38%,rgba(91,111,139,.08),transparent 34%),linear-gradient(145deg,#0c1015,#10151b 52%,#0a0d11);color:#f4f6f8;font-family:Inter,"Aptos",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;min-height:100vh;letter-spacing:.005em}
+header{padding:22px 18px;background:linear-gradient(110deg,rgba(255,255,255,.035),transparent 65%),rgba(12,16,21,.88);border-bottom:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.14)}
+.logo{font-size:24px;font-weight:850;letter-spacing:.085em}
+.logo span{color:var(--accent)}
+header p{color:var(--muted);margin:7px 0 0;font-size:13px;letter-spacing:.04em}
+nav{display:flex;gap:8px;overflow-x:auto;padding:12px 18px;background:var(--surface-glass);position:sticky;top:0;z-index:2;scrollbar-width:thin;border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
+nav button{white-space:nowrap;background:rgba(255,255,255,.035);color:#dce2e9;border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:10px 14px;font-weight:680;transition:background .18s,border-color .18s,color .18s,transform .18s}
+nav button:hover,.secondary:hover{border-color:var(--accent)}
+nav button.active{background:color-mix(in srgb,var(--accent) 18%,#171c22);color:#fff;border-color:color-mix(in srgb,var(--accent) 65%,transparent);box-shadow:inset 0 -2px var(--accent)}
+main{padding:28px 20px 48px;max-width:1160px;margin:auto}
+h1{font-size:clamp(27px,4vw,38px);line-height:1.12;letter-spacing:-.035em;margin:8px 0 12px;font-weight:760}
+h2{font-size:20px;letter-spacing:-.025em;margin-top:0;font-weight:720}
+p{line-height:1.55}
 .muted,.small{color:var(--muted)}
 .small{font-size:12px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px;margin:13px 0}
-.hero{background:linear-gradient(135deg,#382317,#17191e 70%);border:1px solid #65351f;padding:22px;border-radius:14px;margin-bottom:18px}
-.hero strong{color:var(--orange)}
+.card{background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 48%),var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px;margin:16px 0;box-shadow:var(--shadow)}
+.hero{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 92% 4%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 40%),linear-gradient(125deg,rgba(255,255,255,.055),transparent 55%),linear-gradient(145deg,#1a2027,#11161c 78%);border:1px solid #343d47;padding:clamp(26px,5vw,46px);border-radius:18px;margin-bottom:20px;min-height:260px}
+.hero::after{content:"";position:absolute;z-index:-1;width:300px;height:300px;right:-110px;top:-155px;border-radius:50%;background:var(--accent);filter:blur(100px);opacity:.2}
+.hero strong{color:var(--accent);letter-spacing:.12em;font-size:12px}
+.brand-watermark{position:absolute;z-index:-1;top:24px;right:clamp(22px,5vw,58px);max-width:70%;display:flex;flex-direction:column;align-items:flex-end;gap:8px;overflow:hidden;color:color-mix(in srgb,var(--accent) 26%,transparent);font-size:clamp(38px,7.4vw,86px);font-weight:900;letter-spacing:.065em;line-height:.9;white-space:nowrap;opacity:.72;pointer-events:none;user-select:none;-webkit-text-stroke:1px color-mix(in srgb,var(--accent) 48%,transparent);text-shadow:0 0 34px color-mix(in srgb,var(--accent) 24%,transparent)}.brand-watermark-logo{display:block;max-width:min(42%,170px);max-height:42px;object-fit:contain;opacity:.48;filter:grayscale(1);-webkit-text-stroke:0;text-shadow:none}.brand-watermark-logo[hidden]{display:none}
+.hero>*:not(.brand-watermark){position:relative;z-index:1}
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.stat{background:#24262d;padding:14px;border-radius:10px}
-.stat b{display:block;font-size:22px;color:var(--orange);margin-bottom:5px}
+.stat{background:linear-gradient(140deg,rgba(255,255,255,.035),transparent 75%),var(--panel-raised);padding:17px;border:1px solid rgba(255,255,255,.07);border-radius:12px}
+.stat b{display:block;font-size:23px;color:var(--accent);margin-bottom:5px}
 label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px}
-input,select,textarea{width:100%;background:#101216;color:white;border:1px solid #41444d;border-radius:8px;padding:12px;font-size:15px}
+input,select,textarea{width:100%;background:#0e1318;color:white;border:1px solid #3b4652;border-radius:9px;padding:12px 13px;font:inherit;font-size:15px;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{outline:2px solid color-mix(in srgb,var(--accent) 65%,transparent);outline-offset:1px;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 13%,transparent)}
 textarea{min-height:85px;resize:vertical}
-button.primary{background:var(--orange);color:#111;font-weight:bold;border:0;border-radius:8px;padding:13px 17px;margin-top:13px;width:100%;font-size:15px}
-button.secondary{background:#30333b;color:white;border:1px solid #484b54;border-radius:8px;padding:9px 12px;margin:4px 3px 4px 0}
+button{cursor:pointer;font:inherit}
+button.primary{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 86%,white),var(--accent) 68%);color:var(--accent-ink);font-weight:800;border:1px solid color-mix(in srgb,var(--accent) 60%,white);border-radius:9px;padding:13px 17px;margin-top:13px;width:100%;font-size:13px;letter-spacing:.075em;transition:filter .16s,transform .16s,box-shadow .16s;box-shadow:0 7px 20px color-mix(in srgb,var(--accent) 17%,transparent)}
+button.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+button.secondary{background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.015));color:#f1f3f5;border:1px solid #414a54;border-radius:9px;padding:9px 12px;margin:4px 3px 4px 0;transition:border-color .16s,background .16s,transform .16s}
 .entry{padding:13px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 .entry:last-child{border:0}
 .hidden{display:none!important}
+body.signed-out{overflow:hidden}
+body.signed-out nav,body.signed-out main,body.signed-out footer{display:none}
+body:not(.signed-out) #authScreen{display:none}
+#authScreen{min-height:calc(100vh - 90px);display:grid;place-items:center;padding:28px 16px}
+.auth-layout{width:min(100%,1000px);display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.auth-intro{padding:24px}
+.auth-intro .eyebrow{color:#c2cad5;font-size:12px;font-weight:800;letter-spacing:.16em}
+.auth-card{margin:0;padding:clamp(22px,4vw,34px);box-shadow:0 24px 70px rgba(0,0,0,.35);background:linear-gradient(145deg,rgba(255,255,255,.055),transparent 52%),rgba(18,23,29,.96)}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0 8px}
+.auth-tabs button{background:#252b32;color:#e9edf1;border:1px solid #414a54;border-radius:8px;padding:11px;font-weight:800}
+.auth-tabs button.active{background:color-mix(in srgb,var(--accent) 20%,#171c22);color:#fff;border-color:color-mix(in srgb,var(--accent) 65%,transparent);box-shadow:inset 0 -2px var(--accent)}
+@media(max-width:700px){.auth-layout{grid-template-columns:1fr;gap:4px}.auth-intro{padding:8px 4px 16px}#authScreen{align-items:start;padding-top:24px}}
 footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
-.badge{display:inline-block;background:#393027;color:#ff995f;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold}
-.activeBike{border:1px solid var(--orange);border-radius:10px;padding:12px;margin:10px 0;background:#28221e}
-</style>
+.badge{display:inline-block;background:rgba(255,255,255,.06);color:var(--accent);border:1px solid rgba(255,255,255,.08);padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.04em}
+.activeBike{border:1px solid color-mix(in srgb,var(--accent) 48%,var(--line));border-radius:11px;padding:16px;margin:10px 0;background:linear-gradient(110deg,color-mix(in srgb,var(--accent) 10%,transparent),transparent 68%),var(--panel-raised)}
+@media(min-width:760px){header{padding-inline:max(24px,calc((100vw - 1120px)/2))}nav{justify-content:center}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.card{padding:21px}}
+@media(max-width:420px){header{padding:18px 15px}.logo{font-size:21px}nav{padding:10px;gap:6px}nav button{padding:10px 12px}main{padding:18px 13px 32px}.card{padding:16px}.hero{padding:22px 18px;min-height:250px}.brand-watermark{top:20px;right:16px;max-width:86%;font-size:clamp(30px,10vw,46px);letter-spacing:.045em;-webkit-text-stroke:.7px color-mix(in srgb,var(--accent) 42%,transparent)}.brand-watermark-logo{max-width:min(38%,130px);max-height:32px}.stats{gap:8px}.stat{padding:12px}.stat b{font-size:21px}}
+button:hover{transform:translateY(-1px)}
+::selection{background:color-mix(in srgb,var(--accent) 38%,#26303b);color:#fff}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+.gear-pair-grid,.gear-spec-grid,.gear-metrics{display:grid;gap:12px}
+.gear-pair-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:14px}
+.gear-pair{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--panel-raised)}
+.gear-pair h2{font-size:16px;margin:0 0 9px}
+.gear-pair.proposed{border-color:color-mix(in srgb,#59bcdd 42%,var(--line))}
+.gear-help{display:inline-grid;place-items:center;width:17px;height:17px;margin-left:4px;border:1px solid #758396;border-radius:50%;color:#e0e6ed;font-size:11px;font-weight:800;cursor:help}
+.gear-metrics{grid-template-columns:repeat(3,minmax(0,1fr));margin:16px 0}
+.gear-metric{min-width:0;padding:15px;border-radius:11px;border:1px solid rgba(255,255,255,.08);background:var(--panel-raised)}
+.gear-metric span,.gear-metric small{display:block;color:var(--muted);font-size:12px}
+.gear-metric strong{display:block;margin:8px 0 4px;color:var(--accent);font-size:clamp(19px,2.2vw,26px);line-height:1.2;overflow-wrap:anywhere}
+.gear-metric small{line-height:1.45}
+.gear-status{padding:10px 12px;border-radius:9px;background:rgba(255,255,255,.035);color:#d5dce5;font-size:13px}
+.gear-help-details{padding-top:10px;color:var(--muted);font-size:13px}
+.gear-help-details summary{color:#e4e9ef;cursor:pointer;font-weight:700}
+.gear-chart-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.gear-chart-heading h2{margin-bottom:3px}
+.gear-unit-control{min-width:115px;margin:0}
+.gear-spec-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:14px 0}
+.gear-unit-input{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}
+.gear-unit-input select{width:auto;min-width:88px}
+.gear-chart-scroll{width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.gear-chart-scroll svg{display:block;width:100%;min-width:620px;height:auto}
+.gear-chart-scroll svg text{fill:#c5ced9;font-family:inherit;font-size:13px}
+.gear-chart-scroll svg .grid{stroke:#35404b;stroke-width:1}
+.gear-chart-scroll svg .axis{stroke:#aab5c2;stroke-width:1.4}
+.gear-chart-scroll svg .current-line{fill:none;stroke:#f1ad62;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.gear-chart-scroll svg .proposed-line{fill:none;stroke:#59bcdd;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.gear-legend{display:flex;gap:20px;flex-wrap:wrap;margin:4px 0 0 72px;color:#d8dfe8;font-size:12px}
+.gear-legend span{display:inline-flex;align-items:center;gap:7px}
+.gear-legend i{width:20px;height:3px;border-radius:2px;display:inline-block}
+.gear-legend .legend-current{background:#f1ad62}.gear-legend .legend-proposed{background:#59bcdd}
+@media(max-width:760px){.gear-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.gear-spec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.gear-pair-grid,.gear-metrics,.gear-spec-grid{grid-template-columns:1fr}.gear-chart-heading{flex-direction:column}.gear-unit-control{width:100%}.gear-legend{margin-left:4px}.gear-pair{padding:13px}}</style>
 </head>
-<body>
+<body class="signed-out">
 <header>
  <div class="logo">MOTOSETUP <span>AI</span></div>
- <p>Ride smarter. Set up better. Race harder.</p>
+ <p>Every Rider. Every Track. Every Setup.</p>
 </header>
-<nav id="nav">
+<section id="authScreen" aria-label="Create an account or log in">
+ <div class="auth-layout"><div class="auth-intro"><p class="eyebrow">MOTOSETUP AI · YOUR RIDING HQ</p><h1>Your garage, ready when you are.</h1><p class="muted">Create your account or log in to open your saved riders, bikes, and setup history.</p><p class="small">Your account keeps your MotoSetup information saved for you.</p></div><div id="authMount" class="card auth-card"><h2>Welcome</h2><p class="small muted">Sign in or create your free account to continue.</p><div class="auth-tabs"><button id="createTab" class="active" type="button">Create Account</button><button id="loginTab" type="button">Log In</button></div></div></div>
+</section><nav id="nav">
  <button class="active" data-page="home">Home</button>
  <button data-page="profiles">Riders</button>
  <button data-page="garage">My Garage</button>
@@ -55,11 +114,13 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
  <button data-page="maintenance">Maintenance</button>
  <button data-page="gearing">Gearing</button>
  <button data-page="mechanic">AI Mechanic</button>
+ <button data-page="account">Account & Sync</button>
 </nav>
 <main>
 
 <section id="home">
  <div class="hero">
+  <div id="brandWatermark" class="brand-watermark" aria-hidden="true"><span class="brand-watermark-name">MOTOSETUP AI</span><img id="brandWatermarkLogo" class="brand-watermark-logo" alt="" hidden></div>
   <p><strong>WELCOME TO MOTOSETUP AI</strong></p>
   <h1>Your bike. Your setup. Your progress.</h1>
   <p class="muted">Your motocross garage, rider profiles, suspension and maintenance in one place.</p>
@@ -72,6 +133,12 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
   <div class="stat"><b id="maintenanceCount">0</b>Maintenance records</div>
  </div>
  <div class="card">
+  <h2>Protect your data</h2>
+  <p class="small">Your records are saved in this browser. Download a backup before changing devices or clearing browser data.</p>
+  <button class="secondary" onclick="exportDataBackup()">DOWNLOAD DATA BACKUP</button>
+  <p id="dataRecoveryNotice" class="small hidden" role="alert"></p>
+ </div>
+ <div class="card">
   <h2>Active rider</h2><div id="homeRider" class="muted">No rider selected.</div>
   <h2 style="margin-top:20px">Active bike</h2><div id="homeBike" class="muted">No bike selected.</div>
   <button class="primary" onclick="showPage('profiles')">MANAGE RIDERS</button>
@@ -82,17 +149,18 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
 <section id="profiles" class="hidden">
  <h1>Rider Profiles</h1>
  <p class="muted">Save rider information separately so setups can be personalized.</p>
+ <p id="profilePlanInfo" class="small" role="status"></p>
  <div class="card">
   <h2 id="riderFormTitle">Add a rider</h2>
   <input id="riderId" type="hidden">
-  <label>Rider name</label><input id="rName" placeholder="Name">
-  <label>Weight with riding gear (lb)</label><input id="rWeight" type="number" placeholder="130">
-  <label>Height</label><input id="rHeight" placeholder="5'6&quot;">
-  <label>Experience level</label>
+  <label for="rName">Rider name</label><input id="rName" placeholder="Name">
+  <label for="rWeight">Weight with riding gear (lb)</label><input id="rWeight" type="number" placeholder="130">
+  <label for="rHeight">Height</label><input id="rHeight" placeholder="5'6&quot;">
+  <label for="rLevel">Experience level</label>
   <select id="rLevel"><option>C class</option><option>B class</option><option>A class</option><option>Pro</option><option>Beginner</option><option>Intermediate</option></select>
-  <label>Riding style</label>
+  <label for="rStyle">Riding style</label>
   <select id="rStyle"><option>Motocross</option><option>Supercross</option><option>Trail</option><option>Enduro</option><option>Mixed</option></select>
-  <label>Riding preferences / notes</label><textarea id="rNotes" placeholder="Riding style, preferences, goals..."></textarea>
+  <label for="rNotes">Riding preferences / notes</label><textarea id="rNotes" placeholder="Riding style, preferences, goals..."></textarea>
   <button class="primary" onclick="saveRider()">SAVE RIDER</button>
   <button class="secondary" onclick="clearRiderForm()">CANCEL EDIT</button>
  </div>
@@ -103,16 +171,23 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
 <section id="garage" class="hidden">
  <h1>My Garage</h1>
  <p class="muted">Manage your bikes and their individual records.</p>
+ <p id="catalogCoverageNote" class="small muted">Only verified model-year combinations are listed. Missing combinations have not been verified here; they are not a claim that the bike was never made. Use “Other / custom” for older or unlisted bikes.</p>
  <div class="card">
   <h2 id="bikeFormTitle">Add a bike</h2>
   <input id="bikeId" type="hidden">
-  <label>Manufacturer</label>
-  <select id="make"><option>KTM</option><option>Yamaha</option><option>Kawasaki</option><option>Honda</option><option>Suzuki</option><option>GasGas</option><option>Husqvarna</option><option>Triumph</option><option>Other</option></select>
-  <label>Year</label><input id="year" type="number" placeholder="2024">
-  <label>Model</label><input id="model" placeholder="125 SX">
-  <label>Engine type</label><select id="engine"><option>2-stroke</option><option>4-stroke</option></select>
-  <label>Engine hours</label><input id="hours" type="number" min="0" step=".1" placeholder="0">
-  <label>Bike notes / modifications</label><textarea id="bikeNotes" placeholder="Pipe, ECU, suspension changes, other modifications..."></textarea>
+  <label for="make">Manufacturer</label><select id="make" required><option value="">Choose a manufacturer</option></select>
+  <label for="model">Model</label><select id="model" required><option value="">Choose a manufacturer first</option></select>
+  <label for="year">Year</label><select id="year" required><option value="">Choose a model first</option></select>
+  <div id="bikeCustomFields" class="hidden">
+   <p class="small">This bike is outside the verified catalog. Enter its details; the catalog cannot confirm its model-year availability.</p>
+   <div id="customMakeWrap"><label for="customMake">Manufacturer (custom)</label><input id="customMake" maxlength="60" placeholder="Manufacturer"></div>
+   <div id="customYearWrap"><label for="customYear">Year (custom)</label><input id="customYear" type="number" min="1950" max="2200" placeholder="e.g. 2018"></div>
+   <div id="customModelWrap"><label for="customModel">Model (custom)</label><input id="customModel" maxlength="80" placeholder="Model name"></div>
+  </div>
+  <label for="engine">Engine type</label><select id="engine"><option value="">Select a model to detect engine type</option><option>2-stroke</option><option>4-stroke</option></select>
+  <p id="catalogStatus" class="small muted" role="status" aria-live="polite">Engine type is set automatically for catalog models.</p>
+  <label for="hours">Engine hours</label><input id="hours" type="number" min="0" step=".1" placeholder="0">
+  <label for="bikeNotes">Bike notes / modifications</label><textarea id="bikeNotes" placeholder="Pipe, ECU, suspension changes, other modifications..."></textarea>
   <button class="primary" onclick="saveBike()">SAVE BIKE</button>
   <button class="secondary" onclick="clearBikeForm()">CANCEL EDIT</button>
  </div>
@@ -125,16 +200,16 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
  <p class="muted">Save and compare settings for each bike and rider.</p>
  <div class="card">
   <h2>Save a setup</h2>
-  <label>Bike</label><select id="sBike"></select>
-  <label>Rider</label><select id="sRider"></select>
-  <label>Fork compression (clicks out)</label><input id="fc" type="number" placeholder="12">
-  <label>Fork rebound (clicks out)</label><input id="fr" type="number" placeholder="10">
-  <label>Shock compression (clicks out)</label><input id="sc" type="number" placeholder="12">
-  <label>Shock rebound (clicks out)</label><input id="sr" type="number" placeholder="10">
-  <label>Race sag (mm)</label><input id="sag" type="number" placeholder="105">
-  <label>Track conditions</label><select id="conditions"><option>Hard pack</option><option>Loam</option><option>Sand</option><option>Rutted</option><option>Wet</option><option>Mixed</option></select>
-  <label>How did the bike feel?</label><textarea id="feedback" placeholder="Handling, comfort, stability..."></textarea>
-  <label>Result</label><select id="result"><option>Not tested yet</option><option>Improved</option><option>About the same</option><option>Worse</option></select>
+  <label for="sBike">Bike</label><select id="sBike"></select>
+  <label for="sRider">Rider</label><select id="sRider"></select>
+  <label for="fc">Fork compression (clicks out)</label><input id="fc" type="number" placeholder="12">
+  <label for="fr">Fork rebound (clicks out)</label><input id="fr" type="number" placeholder="10">
+  <label for="sc">Shock compression (clicks out)</label><input id="sc" type="number" placeholder="12">
+  <label for="sr">Shock rebound (clicks out)</label><input id="sr" type="number" placeholder="10">
+  <label for="sag">Race sag (mm)</label><input id="sag" type="number" placeholder="105">
+  <label for="conditions">Track conditions</label><select id="conditions"><option>Hard pack</option><option>Loam</option><option>Sand</option><option>Rutted</option><option>Wet</option><option>Mixed</option></select>
+  <label for="feedback">How did the bike feel?</label><textarea id="feedback" placeholder="Handling, comfort, stability..."></textarea>
+  <label for="result">Result</label><select id="result"><option>Not tested yet</option><option>Improved</option><option>About the same</option><option>Worse</option></select>
   <button class="primary" onclick="saveSetup()">SAVE SETUP</button>
  </div>
  <div class="card"><h2>Suspension history</h2><div id="setups"></div></div>
@@ -145,59 +220,251 @@ footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
  <p class="muted">Track service history separately for each motorcycle.</p>
  <div class="card">
   <h2>Log maintenance</h2>
-  <label>Bike</label><select id="mBike"></select>
-  <label>Service performed</label>
+  <label for="mBike">Bike</label><select id="mBike"></select>
+  <label for="service">Service performed</label>
   <select id="service"><option>Engine oil</option><option>Air filter</option><option>Chain maintenance</option><option>Sprockets</option><option>Top end</option><option>Valve check</option><option>Coolant</option><option>Brake fluid</option><option>Brake pads</option><option>Wheel bearings</option><option>Other</option></select>
-  <label>Engine hours</label><input id="mHours" type="number" placeholder="Hours at service">
-  <label>Date</label><input id="mDate" type="date">
-  <label>Notes</label><textarea id="mNotes" placeholder="Parts used, work performed..."></textarea>
+  <label for="mHours">Engine hours</label><input id="mHours" type="number" placeholder="Hours at service">
+  <label for="mDate">Date</label><input id="mDate" type="date">
+  <label for="mNotes">Notes</label><textarea id="mNotes" placeholder="Parts used, work performed..."></textarea>
   <button class="primary" onclick="saveMaintenance()">SAVE MAINTENANCE</button>
  </div>
  <div class="card"><h2>Service history</h2><div id="maintenanceList"></div></div>
 </section>
 
 <section id="gearing" class="hidden">
- <h1>Gearing Calculator</h1>
- <p class="muted">Compare final drive ratios.</p>
+ <h1>Gearing analysis</h1>
+ <p class="muted">Compare sprocket changes with calculated ratio, speed, RPM, and rear-wheel torque effects.</p>
  <div class="card">
-  <label>Bike (optional)</label><select id="gBike"></select>
-  <label>Front sprocket teeth</label><input id="front" type="number" value="13">
-  <label>Rear sprocket teeth</label><input id="rear" type="number" value="50">
-  <button class="primary" onclick="calculate()">CALCULATE RATIO</button>
-  <h2 id="ratio" style="color:var(--orange);margin-top:20px">3.846</h2>
-  <p id="gearingInfo" class="muted">Enter your sprocket sizes to compare gearing.</p>
+  <label for="gBike">Bike (optional)</label><select id="gBike"></select>
+  <p class="small muted">Selecting a bike does not fill mechanical specifications. Enter values from its service manual or measure the tire; no bike-specific reductions are assumed.</p>
+  <div class="gear-pair-grid">
+   <div class="gear-pair">
+    <h2>Current setup</h2>
+    <label for="front">Front sprocket teeth <span class="gear-help" title="The front sprocket is attached to the countershaft. Fewer front teeth make the final drive ratio higher and gearing shorter." aria-label="About front sprocket teeth">?</span></label>
+    <input id="front" type="number" min="1" step="1" value="13" inputmode="numeric">
+    <label for="rear">Rear sprocket teeth <span class="gear-help" title="The rear sprocket is attached to the wheel. More rear teeth make the final drive ratio higher and gearing shorter." aria-label="About rear sprocket teeth">?</span></label>
+    <input id="rear" type="number" min="1" step="1" value="50" inputmode="numeric">
+   </div>
+   <div class="gear-pair proposed">
+    <h2>Proposed setup</h2>
+    <label for="proposedFront">Front sprocket teeth</label>
+    <input id="proposedFront" type="number" min="1" step="1" value="13" inputmode="numeric">
+    <label for="proposedRear">Rear sprocket teeth</label>
+    <input id="proposedRear" type="number" min="1" step="1" value="50" inputmode="numeric">
+   </div>
+  </div>
+  <button class="primary" type="button" onclick="calculate()">REFRESH COMPARISON</button>
+  <p id="comparisonStatus" class="gear-status" role="status" aria-live="polite"></p>
  </div>
- <div class="card"><h2>Understanding gearing</h2><p>A higher final drive ratio generally gives shorter gearing and more wheel torque. A lower ratio generally gives taller gearing and lower engine RPM at the same speed. Actual results depend on the bike and track.</p></div>
+
+ <div class="card">
+  <h2>Calculated comparison</h2>
+  <div class="gear-metrics">
+   <div class="gear-metric"><span>Current final drive ratio</span><strong id="ratio">—</strong><small>rear teeth ÷ front teeth</small></div>
+   <div class="gear-metric"><span>Proposed final drive ratio</span><strong id="proposedRatio">—</strong><small>rear teeth ÷ front teeth</small></div>
+   <div class="gear-metric"><span>Ratio change</span><strong id="ratioChange">—</strong><small id="direction">—</small></div>
+   <div class="gear-metric"><span>Theoretical speed at same RPM</span><strong id="speedAtRpm">—</strong><small id="speedAtRpmNote"></small></div>
+   <div class="gear-metric"><span>Engine RPM at same road speed</span><strong id="rpmAtSpeed">—</strong><small id="rpmAtSpeedNote"></small></div>
+   <div class="gear-metric"><span>Rear-wheel torque multiplication</span><strong id="torqueChange">—</strong><small>relative change, assuming equal engine torque and other reductions</small></div>
+  </div>
+  <p id="gearingInfo" class="muted" aria-live="polite">Enter valid sprocket tooth counts to compare gearing.</p>
+  <details class="gear-help-details"><summary>How to read the ratios and comparison</summary>
+   <p>Final drive ratio = rear sprocket teeth ÷ front sprocket teeth. A higher ratio is shorter gearing: more torque multiplication at the rear wheel and more engine RPM at the same road speed. A lower ratio is taller gearing: less torque multiplication and less RPM at the same road speed.</p>
+   <p>At the same engine RPM, theoretical speed changes by the inverse ratio. Exact absolute speeds need primary reduction, the selected transmission gear ratio, and measured rear-tire rolling circumference. The percentage comparisons need only the sprocket counts, assuming all other gearing stays the same.</p>
+  </details>
+ </div>
+
+ <div class="card">
+  <div class="gear-chart-heading"><div><h2>Theoretical speed by engine RPM</h2><p id="selectedGearText" class="small muted">Selected gear: 1st gear</p></div>
+   <label class="gear-unit-control" for="speedUnit">Speed units<select id="speedUnit"><option value="mph">MPH</option><option value="kmh">km/h</option></select></label>
+  </div>
+  <div class="gear-spec-grid">
+   <div><label for="primaryReduction">Primary reduction ratio <span class="gear-help" title="Find the primary reduction ratio in the bike's service manual. Enter the published ratio as a decimal, such as 3.000." aria-label="About primary reduction ratio">?</span></label><input id="primaryReduction" type="number" min="0.0001" step="any" placeholder="Enter from service manual" inputmode="decimal"></div>
+   <div><label for="transmissionGear">Selected transmission gear</label><select id="transmissionGear"><option value="1">1st gear</option><option value="2">2nd gear</option><option value="3">3rd gear</option><option value="4">4th gear</option><option value="5">5th gear</option><option value="6">6th gear</option></select></div>
+   <div><label for="gearRatio">Selected gear ratio <span class="gear-help" title="Use the ratio for the selected gear from the service manual. Do not enter the final drive ratio here." aria-label="About selected gear ratio">?</span></label><input id="gearRatio" type="number" min="0.0001" step="any" placeholder="Enter from service manual" inputmode="decimal"></div>
+   <div><label for="tireCircumference">Rear tire rolling circumference <span class="gear-help" title="Measure the rear tire's distance for one full wheel rotation with the tire at riding pressure and load." aria-label="About tire circumference">?</span></label><div class="gear-unit-input"><input id="tireCircumference" type="number" min="0.0001" step="any" placeholder="Measure one full rotation" inputmode="decimal"><select id="circumferenceUnit" aria-label="Tire circumference unit"><option value="in">inches</option><option value="mm">millimeters</option><option value="m">meters</option></select></div></div>
+   <div><label for="referenceRpm">Reference engine RPM</label><input id="referenceRpm" type="number" min="1" step="1" value="10000" inputmode="numeric"></div>
+   <div><label for="referenceSpeed">Reference road speed (<span id="referenceSpeedUnit">mph</span>)</label><input id="referenceSpeed" type="number" min="0.1" step="any" value="40" inputmode="decimal"></div>
+   <div><label for="graphMaxRpm">Graph RPM ceiling</label><input id="graphMaxRpm" type="number" min="1000" step="500" value="14000" inputmode="numeric"></div>
+  </div>
+  <p id="graphStatus" class="gear-status" role="status" aria-live="polite">Enter primary reduction, selected-gear ratio, and measured tire circumference to plot theoretical speeds.</p>
+  <div class="gear-chart-scroll"><div id="gearingGraph" aria-live="polite"></div></div>
+  <div class="gear-legend"><span><i class="legend-current"></i>Current gearing</span><span><i class="legend-proposed"></i>Proposed gearing</span></div>
+ </div>
+
+ <div class="card">
+  <h2>Track-performance interpretation</h2>
+  <p id="trackExplanation" class="muted">Calculated gearing changes are mathematical comparisons. Real track performance depends on engine powerband, traction, terrain, rider, and shift points.</p>
+  <p class="small">Shorter gearing can sharpen low-speed response and increase rear-wheel torque multiplication, but may require more shifts and reach the rev limit sooner. Taller gearing can reduce shifting and lower RPM at speed, but may feel less responsive in slow sections. These are tradeoffs, not lap-time or top-speed promises.</p>
+ </div>
 </section>
 
 <section id="mechanic" class="hidden">
  <h1>AI Mechanic</h1>
  <p class="muted">Demo troubleshooting assistant.</p>
  <div class="card">
-  <label>Bike</label><select id="problemBike"></select>
-  <label>What is happening?</label><textarea id="problem" placeholder="Describe the problem..."></textarea>
+  <label for="problemBike">Bike</label><select id="problemBike"></select>
+  <label for="problem">What is happening?</label><textarea id="problem" placeholder="Describe the problem..."></textarea>
   <button class="primary" onclick="mechanicHelp()">REVIEW MY PROBLEM</button>
   <div id="mechanicAnswer"></div>
  </div>
  <p class="small">Demo responses only, not a live AI diagnosis. Verify safety-critical work with the correct service manual.</p>
 </section>
-</main>
-<footer>MOTOSETUP AI · Ride smarter. Set up better. Race harder.</footer>
 
+<section id="account" class="hidden">
+ <h1>Account & Cloud Sync</h1>
+ <p class="muted">Sign in to sync rider profiles and bikes between your devices. Your other setup history stays in this browser until its sync step is added.</p>
+ <div class="card">
+  <h2>Cloud connection</h2>
+  <p id="accountStatus" class="small" role="status" aria-live="polite">Checking cloud configuration…</p>
+  <p class="small">Offline mode keeps this browser's saved records available. Changes sync when a connection returns.</p>
+ </div>
+ <div id="authPanel" class="card">
+  <h2>Account details</h2>
+  <label for="accountDisplayName">Name (for new accounts)</label><input id="accountDisplayName" autocomplete="name" maxlength="100" placeholder="Rider name">
+  <label for="accountEmail">Email</label><input id="accountEmail" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com">
+  <label for="accountPassword">Password</label><input id="accountPassword" type="password" autocomplete="current-password" minlength="8" maxlength="128" placeholder="At least 8 characters">
+  <button id="registerButton" class="primary" type="button">CREATE FREE ACCOUNT</button>
+  <button id="loginButton" class="primary hidden" type="button">LOG IN</button>
+  <button id="resetEmailButton" class="secondary hidden" type="button">FORGOT PASSWORD?</button>
+ </div>
+ <div id="signedInPanel" class="card hidden">
+  <h2>Your account</h2>
+  <p id="accountEmailLabel"></p>
+  <p id="accountPlanLabel" class="badge">Free plan</p>
+  <button id="syncNowButton" class="secondary" type="button">SYNC NOW</button>
+  <button id="signOutButton" class="secondary" type="button">SIGN OUT</button>
+ </div>
+ <div id="migrationPanel" class="card hidden">
+  <h2>Copy existing browser data to this account?</h2>
+  <p id="migrationSummary" class="small"></p>
+  <label id="migrationRiderLabel" class="hidden" for="migrationRiderChoice">Choose the rider to copy on the Free plan</label>
+  <select id="migrationRiderChoice" class="hidden"></select>
+  <p class="small">This copies records and leaves the original browser data untouched. Existing cloud records are not overwritten.</p>
+  <button id="migrateDataButton" class="primary" type="button">COPY RIDERS AND BIKES</button>
+ </div>
+ <div id="passwordUpdatePanel" class="card hidden">
+  <h2>Choose a new password</h2>
+  <label for="newPassword">New password</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128">
+  <button id="updatePasswordButton" class="primary" type="button">UPDATE PASSWORD</button>
+ </div>
+</section>
+</main>
+<footer>MOTOSETUP AI · Every Rider. Every Track. Every Setup.</footer>
+
+<script src="./supabase-config.js"></script>
+<script src="./bike-catalog.js"></script>
+<script src="./gearing-analysis.js"></script>
 <script>
-function getData(key){
- try{return JSON.parse(localStorage.getItem("moto_"+key)||"[]")}
- catch(e){return []}
+let dataWarnings=[];
+let damagedDataKeys=new Set();
+let unreadableStorageKeys=new Set();
+let activeStorageScope="";
+document.body.classList.add("signed-out");
+let suppressCloudSync=false;
+function resolveStorageKey(key){
+ if(!activeStorageScope||!key.startsWith("moto_"))return key;
+ return `moto_account_${encodeURIComponent(activeStorageScope)}_${key.slice(5)}`;
 }
-function putData(key,data){localStorage.setItem("moto_"+key,JSON.stringify(data))}
+function storageWarning(message){
+ if(!dataWarnings.includes(message))dataWarnings.push(message);
+}
+function readStoredValue(key){
+ try{return localStorage.getItem(resolveStorageKey(key))}
+ catch(e){
+  unreadableStorageKeys.add(key);
+  storageWarning("Browser storage could not be read. Changes may not be saved.");
+  return null;
+ }
+}
+function writeStoredValue(key,value){
+ try{localStorage.setItem(resolveStorageKey(key),value);return true}
+ catch(e){storageWarning("Browser storage is full or unavailable. Changes may not be saved.");return false}
+}
+function getData(key){
+ if(damagedDataKeys.has(key))return [];
+ const storageKey="moto_"+key;
+ const raw=readStoredValue(storageKey);
+ if(unreadableStorageKeys.has(storageKey)){
+  damagedDataKeys.add(key);
+  storageWarning(`Changes to ${key} are paused because its saved data could not be read.`);
+  return [];
+ }
+ if(raw===null)return [];
+ try{
+  const parsed=JSON.parse(raw);
+  if(Array.isArray(parsed)&&parsed.every(item=>item&&typeof item==="object"&&!Array.isArray(item)))return parsed;
+ }catch(e){}
+ damagedDataKeys.add(key);
+ const recoveryKey=`moto_recovery_${key}_${Date.now()}`;
+ const preserved=writeStoredValue(recoveryKey,raw);
+ storageWarning(preserved
+  ?`The saved ${key} data could not be read. A recovery copy was kept in this browser; download a data backup before continuing.`
+  :`The saved ${key} data could not be read, and browser storage could not preserve a recovery copy.`);
+ return [];
+}
+function putData(key,data){
+ if(damagedDataKeys.has(key)){
+  storageWarning(`Changes to ${key} are paused to protect its recovery copy. Download a backup before continuing.`);
+  return false;
+ }
+ const saved=writeStoredValue("moto_"+key,JSON.stringify(data));
+ if(saved&&!suppressCloudSync&&(key==="riders"||key==="bikes"))window.MotoSetupCloud?.queueSync();
+ return saved;
+}
+function putDataBatch(entries){
+ const previous=entries.map(([key])=>[key,readStoredValue("moto_"+key)]);
+ for(let i=0;i<entries.length;i++){
+  const [key,data]=entries[i];
+  if(putData(key,data))continue;
+  previous.forEach(([oldKey,raw])=>{
+   try{
+    if(raw===null)localStorage.removeItem(resolveStorageKey("moto_"+oldKey));
+    else localStorage.setItem(resolveStorageKey("moto_"+oldKey),raw);
+   }catch(e){storageWarning("A failed save could not be fully rolled back. Download a data backup before continuing.")}
+  });
+  return false;
+ }
+ return true;
+}
 function makeId(){return "id_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,9)}
 
-let bikes=getData("bikes");
-let setups=getData("setups");
-let maintenance=getData("maintenance");
-let riders=getData("riders");
-let activeBikeId=localStorage.getItem("moto_activeBike")||"";
-let activeRiderId=localStorage.getItem("moto_activeRider")||"";
+let bikes=[]; // Loaded after authentication
+let setups=[];
+let maintenance=[];
+let riders=[];
+let activeBikeId="";
+let activeRiderId="";
+
+// The account service can provide this value after sign-in. Until then, the
+// standalone prototype always uses the free plan. Enforce the limit on writes,
+// not just in the interface; production billing must enforce it on the server.
+let accountPlan="free";
+let riderProfileLimit=1;
+const bikeBrandThemes={
+ ktm:{accent:"#ff641e",ink:"#15100c"},
+ yamaha:{accent:"#4288e8",ink:"#071322"},
+ honda:{accent:"#ef4050",ink:"#23090d"},
+ kawasaki:{accent:"#55c75b",ink:"#071509"},
+ husqvarna:{accent:"#70b5e8",ink:"#08131c"},
+ gasgas:{accent:"#f04445",ink:"#22090a"},
+ suzuki:{accent:"#e7cf55",ink:"#181506"},
+ triumph:{accent:"#e14952",ink:"#20090c"}
+};
+function applyBikeBranding(bike){
+ const root=document.documentElement;
+ const make=String(bike?.make||"").trim();
+ const theme=bikeBrandThemes[make.toLowerCase()];
+ root.dataset.brand=theme?make.toLowerCase():"motosetup";
+ root.style.setProperty("--accent",theme?.accent||"#a6b6cc");
+ root.style.setProperty("--accent-ink",theme?.ink||"#11151a");
+ const watermark=document.getElementById("brandWatermark");
+ const watermarkName=watermark.querySelector(".brand-watermark-name");
+ const watermarkLogo=watermark.querySelector(".brand-watermark-logo");
+ watermarkName.textContent=theme?make.toUpperCase():"MOTOSETUP AI";
+ watermarkLogo.hidden=true;
+ watermarkLogo.removeAttribute("src");
+}
 
 // Migrate existing bike and record data to permanent IDs.
 bikes.forEach(b=>{if(!b.id)b.id=makeId()});
@@ -217,10 +484,27 @@ maintenance.forEach(m=>{
 });
 bikes.forEach(b=>{
  if(b.notes===undefined)b.notes="";
+ if(!b.updatedAt)b.updatedAt=new Date().toISOString();
 });
-putData("bikes",bikes);
-putData("setups",setups);
-putData("maintenance",maintenance);
+riders.forEach(r=>{if(!r.updatedAt)r.updatedAt=new Date().toISOString()});
+
+function exportDataBackup(){
+ try{
+  const storage={};
+  for(let i=0;i<localStorage.length;i++){
+   const key=localStorage.key(i);
+   if(key?.startsWith("moto_"))storage[key]=localStorage.getItem(key);
+  }
+  const backup={app:"MotoSetup AI",schemaVersion:1,exportedAt:new Date().toISOString(),storage};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(backup,null,2)],{type:"application/json"}));
+  const link=document.createElement("a");
+  link.href=url;link.download=`motosetup-backup-${new Date().toISOString().slice(0,10)}.json`;
+  link.click();URL.revokeObjectURL(url);
+ }catch(e){
+  storageWarning("The backup could not be downloaded. Check browser storage and try again.");
+  render();
+ }
+}
 
 function safe(t){
  return String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
@@ -242,6 +526,60 @@ document.getElementById("nav").addEventListener("click",e=>{
  if(b)showPage(b.dataset.page);
 });
 
+function setSelectValue(id,value){const el=document.getElementById(id);if(![...el.options].some(o=>o.value===value)){const option=document.createElement("option");option.value=value;option.textContent=`Saved custom value: ${value}`;el.append(option)}el.value=value}
+function optionHtml(value,label=value,selected=false){return `<option value="${safe(value)}"${selected?' selected':''}>${safe(label)}</option>`}
+const bikeCatalog=window.MotoBikeCatalog||{};
+function catalogModels(year,make){return bikeCatalog[String(year)]?.[make]||null}
+function catalogMakes(){return [...new Set(Object.values(bikeCatalog).flatMap(year=>Object.keys(year)))].sort((a,b)=>a.localeCompare(b))}
+function catalogModelsForMake(make){return [...new Set(Object.values(bikeCatalog).flatMap(year=>Object.keys(year[make]||{})))].sort((a,b)=>a.localeCompare(b))}
+function catalogYearsForModel(make,model){return Object.keys(bikeCatalog).filter(year=>Object.hasOwn(bikeCatalog[year]?.[make]||{},model)).sort((a,b)=>Number(b)-Number(a))}
+function refreshModelOptions(preferred=""){
+ const make=document.getElementById("make").value,el=document.getElementById("model"),models=make&&make!=="__custom"?catalogModelsForMake(make):[];
+ el.innerHTML=(make&&make!=="__custom"?'<option value="">Choose a model</option>':'<option value="">Choose a manufacturer first</option>')+models.map(x=>optionHtml(x)).join("")+optionHtml("__custom","Other / custom");
+ if(preferred&&(models.includes(preferred)||preferred==="__custom"))el.value=preferred;
+ refreshYearOptions();
+}
+function refreshYearOptions(preferred=""){
+ const make=document.getElementById("make").value,model=document.getElementById("model").value,el=document.getElementById("year");
+ const years=make&&make!=="__custom"&&model&&model!=="__custom"?catalogYearsForModel(make,model):[];
+ el.innerHTML=(years.length?'<option value="">Choose a year</option>':'<option value="">Choose a model first</option>')+years.map(y=>optionHtml(y)).join("")+optionHtml("__custom","Other / custom year");
+ if(preferred&&(years.includes(String(preferred))||preferred==="__custom"))el.value=String(preferred);
+ refreshCatalogFields();
+}
+function refreshCatalogFields(preserveEngine=false){
+ const make=document.getElementById("make").value,model=document.getElementById("model").value,year=document.getElementById("year").value;
+ const custom=make==="__custom"||model==="__custom"||year==="__custom";
+ document.getElementById("bikeCustomFields").classList.toggle("hidden",!custom);
+ document.getElementById("customMakeWrap").classList.toggle("hidden",make!=="__custom");
+ document.getElementById("customYearWrap").classList.toggle("hidden",year!=="__custom");
+ document.getElementById("customModelWrap").classList.toggle("hidden",model!=="__custom");
+ const engine=document.getElementById("engine"),status=document.getElementById("catalogStatus"),detected=catalogModels(year,make)?.[model];
+ if(detected&&!preserveEngine){engine.value=detected;engine.disabled=true;status.textContent=`Engine type detected from the verified model catalog: ${detected}.`}
+ else {engine.disabled=false;if(!preserveEngine)engine.value="";status.textContent=custom?"Custom bike: select its engine type; it cannot be detected from the catalog.":"Choose a listed model and year to set engine type automatically."}
+}
+function populateBikeCatalog(bike=null){
+ const makeEl=document.getElementById("make"),modelEl=document.getElementById("model"),yearEl=document.getElementById("year");
+ makeEl.innerHTML='<option value="">Choose a manufacturer</option>'+catalogMakes().map(x=>optionHtml(x)).join("")+optionHtml("__custom","Other / custom");
+ document.getElementById("customMake").value="";document.getElementById("customYear").value="";document.getElementById("customModel").value="";
+ if(!bike){makeEl.value="";refreshModelOptions();return}
+ const make=bike.make||"",model=bike.model||"",year=String(bike.year||"");
+ if(catalogMakes().includes(make)){
+  makeEl.value=make;refreshModelOptions(catalogModelsForMake(make).includes(model)?model:"__custom");
+  if(!catalogModelsForMake(make).includes(model))document.getElementById("customModel").value=model;
+  if(yearEl.options.length>1&&[...yearEl.options].some(o=>o.value===year))yearEl.value=year;
+  else {yearEl.value="__custom";document.getElementById("customYear").value=year}
+  refreshCatalogFields(true);
+ } else {
+  makeEl.value="__custom";document.getElementById("customMake").value=make;refreshModelOptions("__custom");document.getElementById("customModel").value=model;yearEl.value="__custom";document.getElementById("customYear").value=year;refreshCatalogFields(true);
+ }
+ const engine=document.getElementById("engine");engine.value=bike.engine||"";
+ document.getElementById("hours").value=bike.hours||"";document.getElementById("bikeNotes").value=bike.notes||"";
+ const detected=catalogModels(year,make)?.[model];
+ if(!detected||bike.engine&&bike.engine!==detected){engine.disabled=false;document.getElementById("catalogStatus").textContent="Saved bike details are preserved. Confirm or change the engine type if needed."}
+}
+document.getElementById("make").addEventListener("change",()=>refreshModelOptions());
+document.getElementById("model").addEventListener("change",()=>refreshYearOptions());
+document.getElementById("year").addEventListener("change",()=>refreshCatalogFields());
 function updateSelectors(){
  const configs=[["sBike",bikes,activeBikeId],["mBike",bikes,activeBikeId],["gBike",bikes,activeBikeId],["problemBike",bikes,activeBikeId]];
  configs.forEach(([id,list,selected])=>{
@@ -258,22 +596,23 @@ function saveBike(){
  const editId=document.getElementById("bikeId").value;
  const b={
   id:editId||makeId(),
-  make:document.getElementById("make").value,
-  year:document.getElementById("year").value,
-  model:document.getElementById("model").value.trim(),
+  make:document.getElementById("make").value==="__custom"?document.getElementById("customMake").value.trim():document.getElementById("make").value,
+  year:document.getElementById("year").value==="__custom"?document.getElementById("customYear").value:document.getElementById("year").value,
+  model:document.getElementById("model").value==="__custom"?document.getElementById("customModel").value.trim():document.getElementById("model").value,
   engine:document.getElementById("engine").value,
   hours:document.getElementById("hours").value,
-  notes:document.getElementById("bikeNotes").value
+  notes:document.getElementById("bikeNotes").value,
+  updatedAt:new Date().toISOString()
  };
- if(!b.year||!b.model){alert("Enter the bike year and model.");return}
+ if(!b.year||!b.make||!b.model||!b.engine){alert("Choose or enter the bike year, manufacturer, model, and engine type.");return}
  if(editId){
   bikes=bikes.map(old=>old.id===editId?b:old);
  }else{
   bikes.push(b);
   if(!activeBikeId)activeBikeId=b.id;
  }
- putData("bikes",bikes);
- localStorage.setItem("moto_activeBike",activeBikeId);
+ if(!putData("bikes",bikes)){bikes=getData("bikes");render();return}
+ writeStoredValue("moto_activeBike",activeBikeId);
  clearBikeForm();
  render();
  alert(editId?"Bike updated!":"Bike saved!");
@@ -282,34 +621,45 @@ function editBike(id){
  const b=getBike(id);if(!b)return;
  document.getElementById("bikeId").value=b.id;
  document.getElementById("bikeFormTitle").textContent="Edit bike";
- ["make","year","model","engine","hours"].forEach(k=>document.getElementById(k).value=b[k]||"");
- document.getElementById("bikeNotes").value=b.notes||"";
+ populateBikeCatalog(b);
  window.scrollTo(0,0);
 }
 function clearBikeForm(){
  document.getElementById("bikeId").value="";
  document.getElementById("bikeFormTitle").textContent="Add a bike";
- document.getElementById("make").value="KTM";
- ["year","model","hours","bikeNotes"].forEach(k=>document.getElementById(k).value="");
- document.getElementById("engine").value="2-stroke";
+ ["customMake","customYear","customModel","hours","bikeNotes"].forEach(k=>document.getElementById(k).value="");
+ document.getElementById("engine").disabled=false;document.getElementById("engine").value="";
+ populateBikeCatalog();
 }
 function setActiveBike(id){
  if(!getBike(id))return;
- activeBikeId=id;localStorage.setItem("moto_activeBike",id);render();
+ activeBikeId=id;writeStoredValue("moto_activeBike",id);render();
 }
 function deleteBike(id){
  if(!confirm("Delete this bike and its associated records?"))return;
+ const previousBikes=bikes,previousSetups=setups,previousMaintenance=maintenance;
+ const previousDeletedBikes=getData("deletedBikes");
+ const deletedBikes=[...previousDeletedBikes.filter(item=>item.id!==id),{id,deletedAt:new Date().toISOString()}];
+ const previousActiveBikeId=activeBikeId;
  bikes=bikes.filter(b=>b.id!==id);
  setups=setups.filter(s=>s.bikeId!==id);
  maintenance=maintenance.filter(m=>m.bikeId!==id);
  if(activeBikeId===id)activeBikeId=bikes[0]?.id||"";
- localStorage.setItem("moto_activeBike",activeBikeId);
- putData("bikes",bikes);putData("setups",setups);putData("maintenance",maintenance);
+ if(!putDataBatch([["bikes",bikes],["setups",setups],["maintenance",maintenance],["deletedBikes",deletedBikes]])){
+  bikes=previousBikes;setups=previousSetups;maintenance=previousMaintenance;activeBikeId=previousActiveBikeId;render();return;
+ }
+ writeStoredValue("moto_activeBike",activeBikeId);
+ window.MotoSetupCloud?.queueSync();
  render();
 }
 
 function saveRider(){
  const id=document.getElementById("riderId").value;
+ riders=getData("riders");
+ if(!id&&riderProfileLimit!==Infinity&&riders.length>=riderProfileLimit){
+  alert("The free plan includes one rider profile. Premium accounts can save unlimited rider profiles.");
+  return;
+ }
  const r={
   id:id||makeId(),
   name:document.getElementById("rName").value.trim(),
@@ -317,13 +667,14 @@ function saveRider(){
   height:document.getElementById("rHeight").value.trim(),
   level:document.getElementById("rLevel").value,
   style:document.getElementById("rStyle").value,
-  notes:document.getElementById("rNotes").value
+  notes:document.getElementById("rNotes").value,
+  updatedAt:new Date().toISOString()
  };
  if(!r.name){alert("Enter a rider name.");return}
  if(id)riders=riders.map(old=>old.id===id?r:old);
  else{riders.push(r);if(!activeRiderId)activeRiderId=r.id}
- putData("riders",riders);
- localStorage.setItem("moto_activeRider",activeRiderId);
+ if(!putData("riders",riders)){riders=getData("riders");render();return}
+ writeStoredValue("moto_activeRider",activeRiderId);
  clearRiderForm();render();alert(id?"Rider updated!":"Rider saved!");
 }
 function editRider(id){
@@ -333,8 +684,8 @@ function editRider(id){
  document.getElementById("rName").value=r.name;
  document.getElementById("rWeight").value=r.weight||"";
  document.getElementById("rHeight").value=r.height||"";
- document.getElementById("rLevel").value=r.level||"C class";
- document.getElementById("rStyle").value=r.style||"Motocross";
+ setSelectValue("rLevel",r.level||"C class");
+ setSelectValue("rStyle",r.style||"Motocross");
  document.getElementById("rNotes").value=r.notes||"";
  window.scrollTo(0,0);
 }
@@ -345,14 +696,18 @@ function clearRiderForm(){
 }
 function setActiveRider(id){
  if(!getRider(id))return;
- activeRiderId=id;localStorage.setItem("moto_activeRider",id);render();
+ activeRiderId=id;writeStoredValue("moto_activeRider",id);render();
 }
 function deleteRider(id){
  if(!confirm("Delete this rider profile? Existing bike and maintenance records will remain."))return;
+ const previousRiders=riders;
+ const previousDeletedRiders=getData("deletedRiders");
+ const deletedRiders=[...previousDeletedRiders.filter(item=>item.id!==id),{id,deletedAt:new Date().toISOString()}];
+ const previousActiveRiderId=activeRiderId;
  riders=riders.filter(r=>r.id!==id);
  if(activeRiderId===id)activeRiderId=riders[0]?.id||"";
- localStorage.setItem("moto_activeRider",activeRiderId);
- putData("riders",riders);render();
+ if(!putDataBatch([["riders",riders],["deletedRiders",deletedRiders]])){riders=previousRiders;activeRiderId=previousActiveRiderId;render();return}
+ writeStoredValue("moto_activeRider",activeRiderId);window.MotoSetupCloud?.queueSync();render();
 }
 
 function saveSetup(){
@@ -371,7 +726,8 @@ function saveSetup(){
   result:document.getElementById("result").value,
   date:new Date().toLocaleDateString()
  };
- setups.unshift(setup);putData("setups",setups);
+ setups.unshift(setup);
+ if(!putData("setups",setups)){setups=getData("setups");render();return}
  document.getElementById("feedback").value="";render();alert("Suspension setup saved!");
 }
 
@@ -385,17 +741,100 @@ function saveMaintenance(){
   date:document.getElementById("mDate").value,
   notes:document.getElementById("mNotes").value
  };
- maintenance.unshift(record);putData("maintenance",maintenance);
+ maintenance.unshift(record);
+ if(!putData("maintenance",maintenance)){maintenance=getData("maintenance");render();return}
  document.getElementById("mNotes").value="";render();alert("Maintenance saved!");
 }
-function calculate(){
- const f=Number(document.getElementById("front").value);
- const r=Number(document.getElementById("rear").value);
- if(!Number.isFinite(f)||!Number.isFinite(r)||f<=0||r<=0){alert("Enter valid sprocket sizes.");return}
- const value=r/f;
- document.getElementById("ratio").textContent=value.toFixed(3);
- document.getElementById("gearingInfo").textContent=`${r} ÷ ${f} = ${value.toFixed(3)} final drive ratio. Compare with your current gearing.`;
+function calculate(){renderGearingAnalysis()}
+function gearingFormat(value,digits=1){return Number(value).toLocaleString(undefined,{minimumFractionDigits:digits,maximumFractionDigits:digits})}
+function gearingSigned(value,digits=1){return `${value>0?"+":value<0?"−":""}${gearingFormat(Math.abs(value),digits)}`}
+function gearOrdinal(value){const n=Number(value);return `${n}${n===1?"st":n===2?"nd":n===3?"rd":"th"} gear`}
+function renderGearingGraph(data){
+ const width=900,height=440,left=82,right=28,top=28,bottom=68,plotWidth=width-left-right,plotHeight=height-top-bottom;
+ const maxSpeed=Math.max(...data.points.flatMap(point=>[point.currentSpeed,point.proposedSpeed]));
+ const rawStep=Math.max(maxSpeed*1.08/5,0.1),magnitude=Math.pow(10,Math.floor(Math.log10(rawStep))),normalized=rawStep/magnitude;
+ const niceStep=(normalized<=1?1:normalized<=2?2:normalized<=5?5:10)*magnitude,yMaximum=niceStep*5;
+ const x=(rpm)=>left+(rpm/data.maxRpm)*plotWidth,y=(speed)=>top+plotHeight-(speed/yMaximum)*plotHeight;
+ const path=(key)=>data.points.map((point,index)=>`${index?"L":"M"}${x(point.rpm).toFixed(1)},${y(point[key]).toFixed(1)}`).join(" ");
+ let grid="";
+ for(let i=0;i<=5;i++){
+  const gy=top+plotHeight-i*plotHeight/5,gv=i*niceStep;
+  grid+=`<line class="grid" x1="${left}" y1="${gy}" x2="${left+plotWidth}" y2="${gy}"/><text x="${left-12}" y="${gy+4}" text-anchor="end">${gearingFormat(gv,gv<10?1:0)}</text>`;
+ }
+ for(let i=0;i<=4;i++){
+  const gx=left+i*plotWidth/4,rv=data.maxRpm*i/4;
+  grid+=`<line class="grid" x1="${gx}" y1="${top}" x2="${gx}" y2="${top+plotHeight}"/><text x="${gx}" y="${top+plotHeight+24}" text-anchor="middle">${Math.round(rv).toLocaleString()}</text>`;
+ }
+ return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Theoretical speed versus engine RPM in ${gearingSpeedLabel(data.unit)}, comparing current and proposed gearing in ${gearOrdinal(document.getElementById("transmissionGear").value)}">
+  <title>Theoretical speed versus engine RPM (${gearingSpeedLabel(data.unit)})</title><desc>Calculated using entered primary reduction, selected gear ratio, tire circumference, and both sprocket pairs.</desc>
+  ${grid}<line class="axis" x1="${left}" y1="${top+plotHeight}" x2="${left+plotWidth}" y2="${top+plotHeight}"/><line class="axis" x1="${left}" y1="${top}" x2="${left}" y2="${top+plotHeight}"/>
+  <path class="current-line" d="${path("currentSpeed")}"/><path class="proposed-line" d="${path("proposedSpeed")}"/>
+  <text x="${left+plotWidth/2}" y="${height-14}" text-anchor="middle">Engine RPM</text><text transform="translate(21 ${top+plotHeight/2}) rotate(-90)" text-anchor="middle">Theoretical vehicle speed (${gearingSpeedLabel(data.unit)})</text>
+ </svg>`;
 }
+function gearingSpeedLabel(unit){return unit==="kmh"?"km/h":"mph"}
+function renderGearingAnalysis(){
+ const current={front:document.getElementById("front").value,rear:document.getElementById("rear").value};
+ const proposed={front:document.getElementById("proposedFront").value,rear:document.getElementById("proposedRear").value};
+ const specs={primaryReduction:document.getElementById("primaryReduction").value,transmissionRatio:document.getElementById("gearRatio").value,tireCircumference:document.getElementById("tireCircumference").value,circumferenceUnit:document.getElementById("circumferenceUnit").value,speedUnit:document.getElementById("speedUnit").value,maxRpm:document.getElementById("graphMaxRpm").value};
+ const graphStatus=document.getElementById("graphStatus"),graph=document.getElementById("gearingGraph"),legend=document.querySelector(".gear-legend");
+ const selectedGearName=document.getElementById("transmissionGear").selectedOptions[0].textContent;
+ document.getElementById("selectedGearText").textContent=`Selected gear: ${selectedGearName} · ratio ${specs.transmissionRatio||"not entered"}`;
+ document.getElementById("referenceSpeedUnit").textContent=gearingSpeedLabel(specs.speedUnit);
+ let result;
+ try{result=MotoGearing.compareGearing(current,proposed)}
+ catch(error){
+  ["ratio","proposedRatio","ratioChange","direction","speedAtRpm","speedAtRpmNote","rpmAtSpeed","rpmAtSpeedNote","torqueChange"].forEach(id=>document.getElementById(id).textContent="—");
+  document.getElementById("gearingInfo").textContent=error.message;
+  document.getElementById("comparisonStatus").textContent=error.message;
+  document.getElementById("trackExplanation").textContent="Correct the sprocket tooth counts to calculate a comparison. Outputs describe theoretical gearing relationships, not guaranteed track performance.";
+  graph.innerHTML="";graphStatus.textContent=error.message;legend.classList.add("hidden");return;
+ }
+ document.getElementById("ratio").textContent=result.currentRatio.toFixed(3);
+ document.getElementById("proposedRatio").textContent=result.proposedRatio.toFixed(3);
+ document.getElementById("ratioChange").textContent=`${gearingSigned(result.ratioChangePercent,2)}%`;
+ document.getElementById("direction").textContent=`Proposed gearing is ${result.direction}`;
+ document.getElementById("torqueChange").textContent=`${gearingSigned(result.rearWheelTorqueChangePercent,2)}%`;
+ document.getElementById("gearingInfo").textContent=`Final drive = rear ÷ front. At the same RPM, theoretical speed changes ${gearingSigned(result.speedChangePercent,2)}%; at the same road speed, engine RPM changes ${gearingSigned(result.rpmChangePercent,2)}%. Rear-wheel torque multiplication changes by ${gearingSigned(result.rearWheelTorqueChangePercent,2)}%, assuming equal engine torque and other reductions.`;
+ document.getElementById("trackExplanation").textContent=result.direction==="unchanged"?"Calculated: the proposed sprockets leave the final drive ratio, theoretical speed, same-speed RPM, and rear-wheel torque multiplication unchanged. Real track behavior still depends on the bike, rider, traction, and terrain.":`Calculated: the proposed setup is ${result.direction}, changing final drive ratio and rear-wheel torque multiplication by ${gearingSigned(result.ratioChangePercent,2)}%. At the same RPM, theoretical speed changes ${gearingSigned(result.speedChangePercent,2)}%; at the same road speed, engine RPM changes ${gearingSigned(result.rpmChangePercent,2)}%. Real acceleration, low-speed response, and shift timing depend on the engine powerband, traction, rider, and track. Shorter gearing may call for more shifts and reach the rev limit sooner; taller gearing may reduce shifts on faster sections but feel less responsive in tight sections. These are tradeoffs, not lap-time or achievable top-speed predictions.`;
+ const missing=MotoGearing.missingSpecifications(specs),missingText=missing.length?`Enter ${missing.join(", ")} for absolute speed and RPM values.`:"";
+ const referenceRpm=Number(document.getElementById("referenceRpm").value),referenceSpeed=Number(document.getElementById("referenceSpeed").value);
+ const validReferenceRpm=Number.isFinite(referenceRpm)&&referenceRpm>0,validReferenceSpeed=Number.isFinite(referenceSpeed)&&referenceSpeed>0;
+ const relativeSpeed=`${gearingSigned(result.speedChangePercent,2)}% at the same RPM`,relativeRpm=`${gearingSigned(result.rpmChangePercent,2)}% at the same road speed`;
+ if(missing.length){
+  document.getElementById("speedAtRpm").textContent=relativeSpeed;document.getElementById("speedAtRpmNote").textContent=validReferenceRpm?`Absolute speeds at ${Math.round(referenceRpm).toLocaleString()} rpm need the missing specifications.`:"Enter a valid reference RPM for an absolute speed comparison.";
+  document.getElementById("rpmAtSpeed").textContent=relativeRpm;document.getElementById("rpmAtSpeedNote").textContent=validReferenceSpeed?`Absolute RPM at ${gearingFormat(referenceSpeed,1)} ${gearingSpeedLabel(specs.speedUnit)} needs the missing specifications.`:"Enter a valid reference road speed for an absolute RPM comparison.";
+  document.getElementById("comparisonStatus").textContent=`Ratio and percentage comparisons are exact from the sprocket counts. ${missingText}`;
+ }else{
+  try{
+   if(!validReferenceRpm)throw new RangeError("Enter reference engine RPM greater than zero.");
+   if(!validReferenceSpeed)throw new RangeError("Enter reference road speed greater than zero.");
+   const currentSpeed=MotoGearing.speedAtRpm(referenceRpm,current.front,current.rear,specs),proposedSpeed=MotoGearing.speedAtRpm(referenceRpm,proposed.front,proposed.rear,specs);
+   document.getElementById("speedAtRpm").textContent=`${gearingSigned(proposedSpeed.value-currentSpeed.value,1)} ${gearingSpeedLabel(specs.speedUnit)}`;
+   document.getElementById("speedAtRpmNote").textContent=`${gearingFormat(currentSpeed.value,1)} → ${gearingFormat(proposedSpeed.value,1)} ${gearingSpeedLabel(specs.speedUnit)} at ${Math.round(referenceRpm).toLocaleString()} rpm`;
+   const currentRpm=MotoGearing.rpmAtRoadSpeed(referenceSpeed,current.front,current.rear,specs),proposedRpm=MotoGearing.rpmAtRoadSpeed(referenceSpeed,proposed.front,proposed.rear,specs);
+   document.getElementById("rpmAtSpeed").textContent=`${gearingSigned(proposedRpm-currentRpm,0)} rpm`;
+   document.getElementById("rpmAtSpeedNote").textContent=`${Math.round(currentRpm).toLocaleString()} → ${Math.round(proposedRpm).toLocaleString()} rpm at ${gearingFormat(referenceSpeed,1)} ${gearingSpeedLabel(specs.speedUnit)}`;
+   document.getElementById("comparisonStatus").textContent="Absolute theoretical values use the entered primary reduction, selected gear ratio, and tire circumference. Same-RPM speed and same-speed RPM percentages follow directly from the sprocket ratios.";
+  }catch(error){
+   document.getElementById("speedAtRpm").textContent=relativeSpeed;document.getElementById("speedAtRpmNote").textContent=error.message;
+   document.getElementById("rpmAtSpeed").textContent=relativeRpm;document.getElementById("rpmAtSpeedNote").textContent=error.message;
+   document.getElementById("comparisonStatus").textContent=error.message;
+  }
+ }
+ if(missing.length){graphStatus.textContent=`Graph unavailable until you enter: ${missing.join(", ")}.`;graph.innerHTML="";legend.classList.add("hidden")}
+ else{
+  try{
+   const chart=MotoGearing.graphData(current,proposed,specs);graph.innerHTML=renderGearingGraph(chart);legend.classList.remove("hidden");
+   graphStatus.textContent=`Theoretical curves for ${selectedGearName} at a ${Math.round(chart.maxRpm).toLocaleString()} rpm graph ceiling. The ceiling is a display setting, not a bike rev limit.`;
+  }catch(error){graph.innerHTML="";legend.classList.add("hidden");graphStatus.textContent=error.message}
+ }
+}
+["front","rear","proposedFront","proposedRear","primaryReduction","transmissionGear","gearRatio","tireCircumference","circumferenceUnit","speedUnit","referenceRpm","referenceSpeed","graphMaxRpm"].forEach(id=>{
+ const input=document.getElementById(id);input.addEventListener("input",renderGearingAnalysis);input.addEventListener("change",renderGearingAnalysis);
+});
+document.getElementById("gBike").addEventListener("change",renderGearingAnalysis);
+renderGearingAnalysis();
 
 function mechanicHelp(){
  const problem=document.getElementById("problem").value.trim();
@@ -419,13 +858,21 @@ function mechanicHelp(){
 
 function render(){
  bikes=getData("bikes");setups=getData("setups");maintenance=getData("maintenance");riders=getData("riders");
- if(!getBike(activeBikeId)){activeBikeId=bikes[0]?.id||"";localStorage.setItem("moto_activeBike",activeBikeId)}
- if(!getRider(activeRiderId)){activeRiderId=riders[0]?.id||"";localStorage.setItem("moto_activeRider",activeRiderId)}
+ if(!getBike(activeBikeId)){activeBikeId=bikes[0]?.id||"";writeStoredValue("moto_activeBike",activeBikeId)}
+ if(!getRider(activeRiderId)){activeRiderId=riders[0]?.id||"";writeStoredValue("moto_activeRider",activeRiderId)}
+ applyBikeBranding(getBike(activeBikeId));
  document.getElementById("bikeCount").textContent=bikes.length;
  document.getElementById("riderCount").textContent=riders.length;
  document.getElementById("setupCount").textContent=setups.length;
  document.getElementById("maintenanceCount").textContent=maintenance.length;
+ const recoveryNotice=document.getElementById("dataRecoveryNotice");
+ recoveryNotice.textContent=dataWarnings.join(" ");
+ recoveryNotice.classList.toggle("hidden",dataWarnings.length===0);
+ document.getElementById("profilePlanInfo").textContent=accountPlan==="premium"
+  ?"Premium · Unlimited rider profiles"
+  :`Free plan · ${riders.length} saved / ${riderProfileLimit} allowed`;
  updateSelectors();
+ renderGearingAnalysis();
 
  const active=getBike(activeBikeId), rider=getRider(activeRiderId);
  document.getElementById("homeBike").textContent=active?bikeName(active):"No bike selected.";
@@ -465,7 +912,57 @@ function render(){
  <p>Engine hours: ${safe(m.hours||"Not entered")}</p>
  <p>${safe(m.notes||"No notes.")}</p></div>`).join(""):'<p class="muted">No maintenance records yet.</p>';
 }
-render();
+populateBikeCatalog();
+function copyLocalAccountData(){
+ return JSON.parse(JSON.stringify({bikes,riders}));
+}
+function clearAccountDataInMemory(){ activeStorageScope=""; bikes=[];setups=[];maintenance=[];riders=[];activeBikeId="";activeRiderId="";accountPlan="free";riderProfileLimit=1;dataWarnings=[];damagedDataKeys=new Set();unreadableStorageKeys=new Set(); }
+function setAccountStorageScope(userId){
+ const nextScope=userId||"";
+ if(activeStorageScope===nextScope)return null;
+ const anonymousCopy=(!activeStorageScope&&nextScope)?copyLocalAccountData():null;
+ activeStorageScope=nextScope;
+ dataWarnings=[];damagedDataKeys=new Set();unreadableStorageKeys=new Set();
+ bikes=getData("bikes");setups=getData("setups");maintenance=getData("maintenance");riders=getData("riders");
+ activeBikeId=readStoredValue("moto_activeBike")||"";
+ activeRiderId=readStoredValue("moto_activeRider")||"";
+ render();
+ return anonymousCopy;
+}
+function replaceCloudRiderBikeData(data){
+ suppressCloudSync=true;
+ try{
+  if(!damagedDataKeys.has("riders"))putData("riders",data.riders);
+  if(!damagedDataKeys.has("bikes"))putData("bikes",data.bikes);
+ }finally{suppressCloudSync=false}
+ riders=getData("riders");bikes=getData("bikes");render();
+}
+function clearCloudTombstones(kind,clientIds){
+ const key=kind==="rider"?"deletedRiders":"deletedBikes";
+ const remaining=getData(key).filter(item=>!clientIds.includes(item.id));
+ putData(key,remaining);
+}
+function setAccountPlanFromServer(plan){
+ accountPlan=plan==="premium"?"premium":"free";
+ riderProfileLimit=accountPlan==="premium"?Infinity:1;
+ render();
+}
+const authPanel=document.getElementById("authPanel");
+document.getElementById("authMount").append(authPanel);
+document.getElementById("authMount").append(document.getElementById("accountStatus"));
+document.getElementById("createTab").addEventListener("click",()=>{document.getElementById("accountDisplayName").classList.remove("hidden");document.querySelector("label[for=accountDisplayName]").classList.remove("hidden");document.getElementById("registerButton").classList.remove("hidden");document.getElementById("loginButton").classList.add("hidden");document.getElementById("resetEmailButton").classList.add("hidden");document.getElementById("createTab").classList.add("active");document.getElementById("loginTab").classList.remove("active");});
+document.getElementById("createTab").click();
+document.getElementById("loginTab").addEventListener("click",()=>{document.getElementById("accountDisplayName").classList.add("hidden");document.querySelector("label[for=accountDisplayName]").classList.add("hidden");document.getElementById("registerButton").classList.add("hidden");document.getElementById("loginButton").classList.remove("hidden");document.getElementById("resetEmailButton").classList.remove("hidden");document.getElementById("loginTab").classList.add("active");document.getElementById("createTab").classList.remove("active");});window.MotoSetupStore={
+ getLocalData:copyLocalAccountData,
+ setAccountScope:setAccountStorageScope,
+ clearAccountData:clearAccountDataInMemory,
+ replaceCloudData:replaceCloudRiderBikeData,
+ clearTombstones:clearCloudTombstones,
+ setAccountPlan:setAccountPlanFromServer,
+ getTombstones:()=>({riders:getData("deletedRiders"),bikes:getData("deletedBikes")})
+};
+
 </script>
+<script src="./supabase-client.js"></script>
 </body>
 </html>
